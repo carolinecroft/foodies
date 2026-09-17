@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Create Profile | Foodies{% endblock title %}
+
+{% block content %}
+<h2>Create Your Profile</h2>
+
+<form>
+    <p>
+        <label for="profile_picture">Profile picture:</label>
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+    </p>
+
+    <p> 
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </p>
+
+    <p>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+    </p>
+
+    <p>
+        <label for="bio">Bio: (optional)</label>
+        <textarea id="bio" name="bio" rows="4"></textarea>
+    </p>
+
+    <p>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+        </select>
+    </p>
+
+    <p>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+    </p>
+
+    <fieldset>
+        <legend>Interested in (select all that apply):</legend>
+
+        <label>
+            <input type="checkbox" name="interested_in" value="M">
+            Male
+        </label>
+
+        <label>
+            <input type="checkbox" name="interested_in" value="F">
+            Female
+        </label>
+
+        <label>
+            <input type="checkbox" name="interested_in" value="O">
+            Other
+        </label>
+    </fieldset>
+
+    <p>
+        <label for="distance">Maximum distance (miles):</label>
+        <input type="number" id="distance" name="distance_preference"
+                min="1" required>
+    </p>
+
+    <button type="button" disabled>Save Profile</button>
+    <p>Saving profiles will be added later.</p>
+</form>
+{% endblock content %}
