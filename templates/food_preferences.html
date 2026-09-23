@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}Food Preferences{% endblock %}
+
+{% block content %}
+
+<h2>Food Preferences</h2>
+
+<p>Tell us a little about what you like to eat.</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <h3>Favorite Cuisines</h3>
+
+    <label>
+        <input type="checkbox" name="favorite_cuisines" value="Italian">
+        Italian
+    </label>
+
+    <label>
+        <input type="checkbox" name="favorite_cuisines" value="Mexican">
+        Mexican
+    </label>
+
+    <label>
+        <input type="checkbox" name="favorite_cuisines" value="Asian">
+        Asian
+    </label>
+
+    <label>
+        <input type="checkbox" name="favorite_cuisines" value="American">
+        American
+    </label>
+
+
+    <h3>Disliked Cuisines</h3>
+
+    <label>
+        <input type="checkbox" name="disliked_cuisines" value="Italian">
+        Italian
+    </label>
+
+    <label>
+        <input type="checkbox" name="disliked_cuisines" value="Mexican">
+        Mexican
+    </label>
+
+    <label>
+        <input type="checkbox" name="disliked_cuisines" value="Asian">
+        Asian
+    </label>
+
+    <label>
+        <input type="checkbox" name="disliked_cuisines" value="American">
+        American
+    </label>
+
+
+    <h3>Dietary Restrictions</h3>
+
+    <label>
+        <input type="checkbox" name="dietary_restrictions" value="Vegetarian">
+        Vegetarian
+    </label>
+
+    <label>
+        <input type="checkbox" name="dietary_restrictions" value="Vegan">
+        Vegan
+    </label>
+
+    <label>
+        <input type="checkbox" name="dietary_restrictions" value="Gluten-Free">
+        Gluten-Free
+    </label>
+
+    <label>
+        <input type="checkbox" name="dietary_restrictions" value="None">
+        None
+    </label>
+
+
+    <h3>Favorite Food</h3>
+
+    <input
+        type="text"
+        name="favorite_food"
+        placeholder="e.g. Sushi, pizza, tacos"
+    >
+
+
+    <h3>Preferred Restaurant Price Range</h3>
+
+    <label>
+        <input type="radio" name="price_range" value="$">
+        $
+    </label>
+
+    <label>
+        <input type="radio" name="price_range" value="$$">
+        $$
+    </label>
+
+    <label>
+        <input type="radio" name="price_range" value="$$$">
+        $$$
+    </label>
+
+
+    <h3>Preferred Dining Atmosphere</h3>
+
+    <label>
+        <input type="radio" name="atmosphere" value="Casual">
+        Casual
+    </label>
+
+    <label>
+        <input type="radio" name="atmosphere" value="Quiet">
+        Quiet
+    </label>
+
+    <label>
+        <input type="radio" name="atmosphere" value="Social">
+        Social
+    </label>
+
+
+    <h3>Willingness to Try New Foods</h3>
+
+    <label>
+        <input type="radio" name="try_new_foods" value="Yes">
+        Yes
+    </label>
+
+    <label>
+        <input type="radio" name="try_new_foods" value="Sometimes">
+        Sometimes
+    </label>
+
+    <label>
+        <input type="radio" name="try_new_foods" value="No">
+        No
+    </label>
+
+
+    <br><br>
+
+    <button type="submit">Continue</button>
+
+</form>
+
+{% endblock %}
