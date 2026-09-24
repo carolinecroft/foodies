@@ -7,3 +7,9 @@ def home(request):
 
 def food_preferences(request):
     return render(request, "food_preferences.html")
+
+
+# Create your views here.
+
+def profile_setup(request):
+    return render(request, "profile_setup.html")
