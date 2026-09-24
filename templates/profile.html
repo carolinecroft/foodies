@@ -3,65 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Preview</title>
+    <title>{{ profile.name }}'s Profile</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <main class="profile-container">
-
         <article class="profile-card">
+            <dif class="profile-photo">
+                <!-- Profile Photo -->
+                 <div class="photo-placeholder">
+                    Profile Photo
+                 </div>
+            </dif>
 
-            <!-- Profile photo -->
-            <img
-                src="profile.jpg"
-                alt="Profile photo of Alex"
-                class="profile-photo"
-            >
+            <section class="profile-intro">
+                <header class="profile-header">
+                    <h1>
+                        {{ profile.name }},
+                        {{ profile.age }}
+                    </h1>
 
-            <!-- Profile information -->
-            <section class="profile-info">
-
-                <header>
-                    <h1>Alex, 24</h1>
-                    <p class="location">Orlando, FL</p>
+                    <p class="location">
+                        {{ profile.location }}
+                    </p>
                 </header>
 
-                <!-- Bio -->
-                <section class="bio">
+                <section class="profile-section">
                     <h2>About Me</h2>
                     <p>
-                        Coffee enthusiast, concert lover, and always
-                        looking for somewhere new to travel.
+                        {{ profile.bio }}
                     </p>
                 </section>
 
-                <!-- Interests -->
-                <section class="interests">
-                    <h2>Interests</h2>
-
-                    <span>Music</span>
-                    <span>Travel</span>
-                    <span>Photography</span>
-                    <span>Coffee</span>
-                </section>
-
+                
             </section>
-
-            <!-- Profile actions -->
-            <footer class="profile-actions">
-                <button type="button" class="dislike-button">
-                    ✕
-                </button>
-
-                <button type="button" class="like-button">
-                    ♥
-                </button>
-            </footer>
-
         </article>
-
     </main>
 
 </body>
