@@ -1,95 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ profile.name }}'s Profile</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block title %}Profile | Foodies{% endblock %}
 
-    <main class="profile-container">
-        <article class="profile-card">
-            <dif class="profile-photo">
-                <!-- Profile Photo -->
-                 {% if profile.profile_photo %}
+{% block content %}
 
-                    <img src="{{ profile.profile_phot_url }}" 
-                         alt="{{ profile.name }}">
-                {% else %}
-                    
-                    <div class="photo-placeholder">
-                        No Photo
-                    </div>
-                {% endif %}
-            </dif>
+<div class="profile-container">
+    <article class="profile-card">
 
-            <section class="profile-info">
-                <header class="profile-header">
-                    <h1>
-                        {{ profile.name }},
-                        {{ profile.age }}
-                    </h1>
+        <section class="profile-info">
 
-                    <p class="location">
-                        {{ profile.location }}
-                    </p>
-                </header>
+            <header class="profile-header">
+                <h2>
+                    {{ profile.name }}, {{ profile.age }}
+                </h2>
 
-                <section class="profile-section">
-                    <h2>About Me</h2>
-                    <p>
-                        {{ profile.bio }}
-                    </p>
-                </section>
+                <p class="location">
+                    {{ profile.location }}
+                </p>
+            </header>
 
-                <section class="profile-section">
-                    <h2>Favorite Cuisines</h2>
 
-                    <div class="cuisine-list">
-                        {% for cuisine in profile.favorite_cuisines %}
-                            <span class="preference-tag">
-                                {{ cuisine }}
-                            </span>
-                        {% endfor %}
-                    </div>
-                </section>
+            <section class="profile-section">
+                <h3>About Me</h3>
 
-                <section class="profile-section">
-                    <h2>Dining Preferences</h2>
-
-                    <div class="preference">
-                        <span class="preference-icon"></span>
-
-                        <div>
-                            <strong>Price Range</strong>
-                            <p>{{ profile.price_reference }}</p>
-                        </div>
-                    </div>
-
-                    <div class="preference">
-                        <span class="preference-icon"></span>
-
-                        <div>
-                            <strong>Favorite Atmosphere</strong>
-                            <p>{{ profile.atmosphere }}</p>
-                        </div>
-                    </div>
-                </section>
+                <p>
+                    {{ profile.bio }}
+                </p>
             </section>
 
-            <footer class="profile-actions">
-                <button class="reject-button" type="button">
-                    Button
-                </button>
 
-                <button class="like-button" type="button">
+            <section class="profile-section">
+                <h3>Profile Information</h3>
 
-                </button>
-            </footer>
-        </article>
-    </main>
+                <p>
+                    <strong>Gender:</strong>
+                    {{ profile.get_gender_display }}
+                </p>
+            </section>
 
-</body>
-</html>
+
+            <section class="profile-section">
+                <h3>Food Preferences</h3>
+
+                <p>
+                    <strong>Favorite Cuisine:</strong>
+                    {{ food_preferences.favorite_cuisine }}
+                </p>
+
+                <p>
+                    <strong>Disliked Cuisine:</strong>
+                    {{ food_preferences.disliked_cuisine }}
+                </p>
+
+                <p>
+                    <strong>Dietary Restrictions:</strong>
+                    {{ food_preferences.dietary_restrictions }}
+                </p>
+
+                <p>
+                    <strong>Favorite Food:</strong>
+                    {{ food_preferences.favorite_food }}
+                </p>
+
+                <p>
+                    <strong>Preferred Price Range:</strong>
+                    {{ food_preferences.preferred_price_range }}
+                </p>
+
+                <p>
+                    <strong>Preferred Dining Atmosphere:</strong>
+                    {{ food_preferences.preferred_dining_atmosphere }}
+                </p>
+
+                <p>
+                    <strong>Willing to Try New Foods:</strong>
+                    {% if food_preferences.willing_to_try_new_foods %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </p>
+            </section>
+
+        </section>
+
+    </article>
+</div>
+
+{% endblock %}

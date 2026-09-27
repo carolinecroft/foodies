@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Food Preferences{% endblock %}
+{% block title %}Food Preferences | Foodies{% endblock %}
 
 {% block content %}
 
@@ -145,7 +145,9 @@
 
     <br><br>
 
-    <button type="submit">Continue</button>
+    <button type="button" onclick="window.location.href='{% url 'profile' %}'">
+    View My Profile!
+    </button>
 
 </form>
 

@@ -68,7 +68,9 @@
     <button type="button" disabled>Save Profile</button>
     <p>Saving profiles will be added later.</p>
 
-    <a href="#">Set up Food Preferences</a>
+    <button type="button" onclick="window.location.href='{% url 'food_preferences' %}'">
+    Set Up My Food Preferences
+    </button>
     
 </form>
 {% endblock content %}
