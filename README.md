@@ -53,6 +53,17 @@ python manage.py migrate
 
 python manage.py runserver 
 
+### 8. Available Pages
+
+Once the development server is running, the current pages can be accessed at:
+
+- **Home:** http://127.0.0.1:8000/
+- **Create Profile:** http://127.0.0.1:8000/profile/setup/
+- **Food Preferences:** http://127.0.0.1:8000/food-preferences/
+- **My Profile:** http://127.0.0.1:8000/profile/
+
+The pages can also be accessed using the navigation bar at the top of the application.
+
 
 ## Git Workflow 
 
