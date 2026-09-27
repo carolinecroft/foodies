@@ -1,25 +1,34 @@
 {% extends "base.html" %}
 
-{% block title %}Profile | Foodies{% endblock %}
+{% block title %}My Profile | Foodies{% endblock %}
 
 {% block content %}
 
 <div class="profile-container">
+
     <article class="profile-card">
 
+        <!-- Profile Photo Preview -->
+        <div class="profile-photo">
+            <div class="photo-placeholder">
+                Profile Photo
+            </div>
+        </div>
+
+
+        <!-- Main Profile Information -->
         <section class="profile-info">
 
-            <header class="profile-header">
-                <h2>
-                    {{ profile.name }}, {{ profile.age }}
-                </h2>
+            <div class="profile-header">
+                <h2>{{ profile.name }}, {{ profile.age }}</h2>
 
                 <p class="location">
                     {{ profile.location }}
                 </p>
-            </header>
+            </div>
 
 
+            <!-- About Me -->
             <section class="profile-section">
                 <h3>About Me</h3>
 
@@ -29,62 +38,69 @@
             </section>
 
 
+            <!-- Food Preferences -->
             <section class="profile-section">
-                <h3>Profile Information</h3>
+                <h3>Food Favorites</h3>
 
-                <p>
-                    <strong>Gender:</strong>
-                    {{ profile.get_gender_display }}
-                </p>
+                <div class="preference-item">
+                    <strong>Favorite Cuisine</strong>
+                    <p>{{ food_preferences.favorite_cuisine }}</p>
+                </div>
+
+                <div class="preference-item">
+                    <strong>Favorite Food</strong>
+                    <p>{{ food_preferences.favorite_food }}</p>
+                </div>
             </section>
 
 
+            <!-- Dining Preferences -->
             <section class="profile-section">
-                <h3>Food Preferences</h3>
+                <h3>Perfect Date Night</h3>
 
-                <p>
-                    <strong>Favorite Cuisine:</strong>
-                    {{ food_preferences.favorite_cuisine }}
-                </p>
+                <div class="preference-item">
+                    <strong>Price Range</strong>
+                    <p>{{ food_preferences.preferred_price_range }}</p>
+                </div>
 
-                <p>
-                    <strong>Disliked Cuisine:</strong>
-                    {{ food_preferences.disliked_cuisine }}
-                </p>
+                <div class="preference-item">
+                    <strong>Dining Atmosphere</strong>
+                    <p>{{ food_preferences.preferred_dining_atmosphere }}</p>
+                </div>
 
-                <p>
-                    <strong>Dietary Restrictions:</strong>
-                    {{ food_preferences.dietary_restrictions }}
-                </p>
+                <div class="preference-item">
+                    <strong>Trying New Foods?</strong>
 
-                <p>
-                    <strong>Favorite Food:</strong>
-                    {{ food_preferences.favorite_food }}
-                </p>
+                    <p>
+                        {% if food_preferences.willing_to_try_new_foods %}
+                            Yes!
+                        {% else %}
+                            Not usually
+                        {% endif %}
+                    </p>
+                </div>
+            </section>
 
-                <p>
-                    <strong>Preferred Price Range:</strong>
-                    {{ food_preferences.preferred_price_range }}
-                </p>
 
-                <p>
-                    <strong>Preferred Dining Atmosphere:</strong>
-                    {{ food_preferences.preferred_dining_atmosphere }}
-                </p>
+            <!-- Additional Food Information -->
+            <section class="profile-section">
+                <h3>Good to Know</h3>
 
-                <p>
-                    <strong>Willing to Try New Foods:</strong>
-                    {% if food_preferences.willing_to_try_new_foods %}
-                        Yes
-                    {% else %}
-                        No
-                    {% endif %}
-                </p>
+                <div class="preference-item">
+                    <strong>Dietary Restrictions</strong>
+                    <p>{{ food_preferences.dietary_restrictions }}</p>
+                </div>
+
+                <div class="preference-item">
+                    <strong>Foods/Cuisines I Avoid</strong>
+                    <p>{{ food_preferences.disliked_cuisine }}</p>
+                </div>
             </section>
 
         </section>
 
     </article>
+
 </div>
 
 {% endblock %}
