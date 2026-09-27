@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ profile.name }}'s Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="profile-container">
+        <article class="profile-card">
+            <dif class="profile-photo">
+                <!-- Profile Photo -->
+                 {% if profile.profile_photo %}
+
+                    <img src="{{ profile.profile_phot_url }}" 
+                         alt="{{ profile.name }}">
+                {% else %}
+                    
+                    <div class="photo-placeholder">
+                        No Photo
+                    </div>
+                {% endif %}
+            </dif>
+
+            <section class="profile-info">
+                <header class="profile-header">
+                    <h1>
+                        {{ profile.name }},
+                        {{ profile.age }}
+                    </h1>
+
+                    <p class="location">
+                        {{ profile.location }}
+                    </p>
+                </header>
+
+                <section class="profile-section">
+                    <h2>About Me</h2>
+                    <p>
+                        {{ profile.bio }}
+                    </p>
+                </section>
+
+                <section class="profile-section">
+                    <h2>Favorite Cuisines</h2>
+
+                    <div class="cuisine-list">
+                        {% for cuisine in profile.favorite_cuisines %}
+                            <span class="preference-tag">
+                                {{ cuisine }}
+                            </span>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="profile-section">
+                    <h2>Dining Preferences</h2>
+
+                    <div class="preference">
+                        <span class="preference-icon"></span>
+
+                        <div>
+                            <strong>Price Range</strong>
+                            <p>{{ profile.price_reference }}</p>
+                        </div>
+                    </div>
+
+                    <div class="preference">
+                        <span class="preference-icon"></span>
+
+                        <div>
+                            <strong>Favorite Atmosphere</strong>
+                            <p>{{ profile.atmosphere }}</p>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <footer class="profile-actions">
+                <button class="reject-button" type="button">
+                    Button
+                </button>
+
+                <button class="like-button" type="button">
+
+                </button>
+            </footer>
+        </article>
+    </main>
+
+</body>
+</html>
