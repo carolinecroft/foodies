@@ -13,3 +13,6 @@ def food_preferences(request):
 
 def profile_setup(request):
     return render(request, "profile_setup.html")
+
+def profile(request):
+    return render(request, "profile.html")
