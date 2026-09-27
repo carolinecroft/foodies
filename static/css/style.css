@@ -30,13 +30,63 @@ label {
     margin: 5px 10px;
 }
 
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+
+/* Foodies colors and basic styling for the sample video */
+
+body {
+    background-color: #fff8f5;
+    color: #333333;
+}
+
+/* Header styling */
+header {
+    border-bottom: 1px solid #eeeeee;
+}
+
+header h1 {
+    margin: 0;
+    color: #c94c5c;
+}
+
+/* Heading colors */
+h2 {
+    color: #c94c5c;
+}
+
+/* Form fields */
+input[type="number"],
+textarea,
+select {
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+}
+
+/* Button styling */
+button {
+    border: none;
+    border-radius: 6px;
+    background-color: #c94c5c;
+    color: white;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #a93e4c;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 input[type="text"] {
     padding: 8px;
     width: 80%;
     max-width: 400px;
-}
-
-button {
-    padding: 10px 20px;
-    cursor: pointer;
 }
