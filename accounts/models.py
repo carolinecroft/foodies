@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
     # we don't want these fields to be optional (except for bio) when creating a profile, so we will not set blank=True or null=True for these fields
     name = models.CharField(max_length=100)
