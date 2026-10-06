@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile
+from .models import Profile, FoodPreferences
 
 
 class ProfileForm(forms.ModelForm):
@@ -9,6 +9,19 @@ class ProfileForm(forms.ModelForm):
         required=True,
         label="Interested in",
     )
+
+    class FoodPreferencesForm(forms.ModelForm):
+        class Meta:
+            model = FoodPreferences
+            fields = [
+                "favorite_cuisine",
+                "disliked_cuisine",
+                "dietary_restrictions",
+                "favorite_food",
+                "preferred_price_range",
+                "preferred_dining_atmosphere",
+                "willing_to_try_new_foods",
+         ]
 
     class Meta:
         model = Profile
