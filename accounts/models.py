@@ -1,15 +1,22 @@
 from django.db import models
 from django.conf import settings
+from django.core.validators import MinValueValidator
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
-    # we don't want these fields to be optional (except for bio) when creating a profile, so we will not set blank=True or null=True for these fields
+    # Bio and profile prompt are optional; other profile inputs are required
     name = models.CharField(max_length=100)
-    age = models.PositiveIntegerField()
+    age = models.PositiveIntegerField(validators=[MinValueValidator(18)])
     gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')])
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100)
+    interested_in = models.JSONField(default=list)
+    distance_preference = models.PositiveIntegerField(
+        default=25,
+        validators=[MinValueValidator(1)],
+    )
+    profile_prompt = models.CharField(max_length=300, blank=True)
     
 
     def __str__(self):

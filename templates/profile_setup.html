@@ -1,76 +1,73 @@
 {% extends "base.html" %}
 
-{% block title %}Create Profile | Foodies{% endblock title %}
+{% block title %}Profile Setup | Foodies{% endblock title %}
 
 {% block content %}
-<h2>Create Your Profile</h2>
+<h2>
+    {% if form.instance.pk %}
+        Edit Your Profile
+    {% else %}
+        Create Your Profile
+    {% endif %}
+</h2>
 
-<form>
-    <p>
-        <label for="profile_picture">Profile picture:</label>
-        <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
-    </p>
+<form method="post">
+    {% csrf_token %}
 
-    <p> 
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-    </p>
+    {{ form.non_field_errors }}
 
-    <p>
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required>
-    </p>
+    <p>Profile photo upload will be added later.</p>
 
     <p>
-        <label for="bio">Bio: (optional)</label>
-        <textarea id="bio" name="bio" rows="4"></textarea>
+        {{ form.name.label_tag }}
+        {{ form.name }}
     </p>
+    {{ form.name.errors }}
 
     <p>
-        <label for="gender">Gender:</label>
-        <select id="gender" name="gender" required>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-        </select>
+        {{ form.age.label_tag }}
+        {{ form.age }}
     </p>
+    {{ form.age.errors }}
 
     <p>
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required>
+        {{ form.bio.label_tag }}
+        <span>(optional)</span>
+        {{ form.bio }}
     </p>
+    {{ form.bio.errors }}
+
+    <p>
+        {{ form.gender.label_tag }}
+        {{ form.gender }}
+    </p>
+    {{ form.gender.errors }}
+
+    <p>
+        {{ form.location.label_tag }}
+        {{ form.location }}
+    </p>
+    {{ form.location.errors }}
 
     <fieldset>
         <legend>Interested in (select all that apply):</legend>
-
-        <label>
-            <input type="checkbox" name="interested_in" value="M">
-            Male
-        </label>
-
-        <label>
-            <input type="checkbox" name="interested_in" value="F">
-            Female
-        </label>
-
-        <label>
-            <input type="checkbox" name="interested_in" value="O">
-            Other
-        </label>
+        {{ form.interested_in }}
+        {{ form.interested_in.errors }}
     </fieldset>
 
     <p>
-        <label for="distance">Maximum distance (miles):</label>
-        <input type="number" id="distance" name="distance_preference"
-                min="1" required>
+        {{ form.distance_preference.label_tag }}
+        {{ form.distance_preference }}
     </p>
+    {{ form.distance_preference.errors }}
 
-    <button type="button" disabled>Save Profile</button>
-    <p>Saving profiles will be added later.</p>
+    <p>
+        {{ form.profile_prompt.label_tag }}
+        <span>(optional)</span>
+        {{ form.profile_prompt }}
+    </p>
+    {{ form.profile_prompt.errors }}
 
-    <button type="button" onclick="window.location.href='{% url 'food_preferences' %}'">
-    Set Up My Food Preferences
-    </button>
-    
+    <button type="submit">Save Profile and Continue</button>
 </form>
 {% endblock content %}
