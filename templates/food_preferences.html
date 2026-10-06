@@ -11,73 +11,59 @@
 <form method="post">
     {% csrf_token %}
 
-    <h3>Favorite Cuisines</h3>
+    <h3>Favorite Cuisine</h3>
 
     <label>
-        <input type="checkbox" name="favorite_cuisines" value="Italian">
+        <input type="radio" name="favorite_cuisine" value="Italian" required>
         Italian
     </label>
 
     <label>
-        <input type="checkbox" name="favorite_cuisines" value="Mexican">
+        <input type="radio" name="favorite_cuisine" value="Mexican">
         Mexican
     </label>
 
     <label>
-        <input type="checkbox" name="favorite_cuisines" value="Asian">
+        <input type="radio" name="favorite_cuisine" value="Asian">
         Asian
     </label>
 
     <label>
-        <input type="checkbox" name="favorite_cuisines" value="American">
+        <input type="radio" name="favorite_cuisine" value="American">
         American
     </label>
 
 
-    <h3>Disliked Cuisines</h3>
+    <h3>Disliked Cuisine</h3>
 
     <label>
-        <input type="checkbox" name="disliked_cuisines" value="Italian">
+        <input type="radio" name="disliked_cuisine" value="Italian">
         Italian
     </label>
 
     <label>
-        <input type="checkbox" name="disliked_cuisines" value="Mexican">
+        <input type="radio" name="disliked_cuisine" value="Mexican">
         Mexican
     </label>
 
     <label>
-        <input type="checkbox" name="disliked_cuisines" value="Asian">
+        <input type="radio" name="disliked_cuisine" value="Asian">
         Asian
     </label>
 
     <label>
-        <input type="checkbox" name="disliked_cuisines" value="American">
+        <input type="radio" name="disliked_cuisine" value="American">
         American
     </label>
 
 
     <h3>Dietary Restrictions</h3>
 
-    <label>
-        <input type="checkbox" name="dietary_restrictions" value="Vegetarian">
-        Vegetarian
-    </label>
-
-    <label>
-        <input type="checkbox" name="dietary_restrictions" value="Vegan">
-        Vegan
-    </label>
-
-    <label>
-        <input type="checkbox" name="dietary_restrictions" value="Gluten-Free">
-        Gluten-Free
-    </label>
-
-    <label>
-        <input type="checkbox" name="dietary_restrictions" value="None">
-        None
-    </label>
+    <input
+        type="text"
+        name="dietary_restrictions"
+        placeholder="e.g. Vegetarian, vegan, gluten-free"
+    >
 
 
     <h3>Favorite Food</h3>
@@ -92,17 +78,17 @@
     <h3>Preferred Restaurant Price Range</h3>
 
     <label>
-        <input type="radio" name="price_range" value="$">
+        <input type="radio" name="preferred_price_range" value="$" required>
         $
     </label>
 
     <label>
-        <input type="radio" name="price_range" value="$$">
+        <input type="radio" name="preferred_price_range" value="$$">
         $$
     </label>
 
     <label>
-        <input type="radio" name="price_range" value="$$$">
+        <input type="radio" name="preferred_price_range" value="$$$">
         $$$
     </label>
 
@@ -110,43 +96,38 @@
     <h3>Preferred Dining Atmosphere</h3>
 
     <label>
-        <input type="radio" name="atmosphere" value="Casual">
+        <input type="radio" name="preferred_dining_atmosphere" value="Casual" required>
         Casual
     </label>
 
     <label>
-        <input type="radio" name="atmosphere" value="Quiet">
+        <input type="radio" name="preferred_dining_atmosphere" value="Quiet">
         Quiet
     </label>
 
     <label>
-        <input type="radio" name="atmosphere" value="Social">
+        <input type="radio" name="preferred_dining_atmosphere" value="Social">
         Social
     </label>
 
 
-    <h3>Willingness to Try New Foods</h3>
+    <h3>Willing to Try New Foods?</h3>
 
     <label>
-        <input type="radio" name="try_new_foods" value="Yes">
+        <input type="radio" name="willing_to_try_new_foods" value="True" required>
         Yes
     </label>
 
     <label>
-        <input type="radio" name="try_new_foods" value="Sometimes">
-        Sometimes
-    </label>
-
-    <label>
-        <input type="radio" name="try_new_foods" value="No">
+        <input type="radio" name="willing_to_try_new_foods" value="False">
         No
     </label>
 
 
     <br><br>
 
-    <button type="button" onclick="window.location.href='{% url 'profile' %}'">
-    View My Profile!
+    <button type="submit">
+        Save Preferences
     </button>
 
 </form>
