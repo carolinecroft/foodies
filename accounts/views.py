@@ -41,6 +41,15 @@ def profile_setup(request):
         {"form": form},
     )
 
-
+@login_required
 def profile(request):
-    return render(request, "profile.html")
+
+    user_profile = Profile.objects.filter(
+        user=request.user
+    ).first()
+
+    context = {
+        "profile_setup": user_profile
+    }
+
+    return render(request, "profile.html", context)
