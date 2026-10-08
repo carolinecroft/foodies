@@ -1,15 +1,51 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .forms import ProfileForm
-from .models import Profile
+from .forms import ProfileForm, FoodPreferencesForm
+from .models import Profile, FoodPreferences
 
 def home(request):
     return render(request, "home.html")
 
 
+@login_required
 def food_preferences(request):
-    return render(request, "food_preferences.html")
+    # Get the profile belonging to the logged-in user
+    user_profile = Profile.objects.filter(user=request.user).first()
+
+    # If they don't have a profile, send them to setup
+    if user_profile is None:
+        return redirect("profile_setup")
+
+    # Find their previously saved food preferences
+    preferences = FoodPreferences.objects.filter(
+        profile=user_profile
+    ).first()
+
+    if request.method == "POST":
+        # Use existing preferences if they already have some
+        form = FoodPreferencesForm(
+            request.POST,
+            instance=preferences
+        )
+
+        if form.is_valid():
+            saved_preferences = form.save(commit=False)
+            saved_preferences.profile = user_profile
+            saved_preferences.save()
+
+            return redirect("food_preferences")
+
+    else:
+        # Show saved values when returning to the page
+        form = FoodPreferencesForm(instance=preferences)
+
+    return render(
+        request,
+        "food_preferences.html",
+        {"form": form},
+    )
+
 
 
 # Create your views here.

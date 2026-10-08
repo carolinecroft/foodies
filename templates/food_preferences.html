@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Food Preferences | Foodies{% endblock %}
@@ -12,117 +13,34 @@
     {% csrf_token %}
 
     <h3>Favorite Cuisine</h3>
-
-    <label>
-        <input type="radio" name="favorite_cuisine" value="Italian" required>
-        Italian
-    </label>
-
-    <label>
-        <input type="radio" name="favorite_cuisine" value="Mexican">
-        Mexican
-    </label>
-
-    <label>
-        <input type="radio" name="favorite_cuisine" value="Asian">
-        Asian
-    </label>
-
-    <label>
-        <input type="radio" name="favorite_cuisine" value="American">
-        American
-    </label>
-
+    {{ form.favorite_cuisine }}
+    {{ form.favorite_cuisine.errors }}
 
     <h3>Disliked Cuisine</h3>
-
-    <label>
-        <input type="radio" name="disliked_cuisine" value="Italian">
-        Italian
-    </label>
-
-    <label>
-        <input type="radio" name="disliked_cuisine" value="Mexican">
-        Mexican
-    </label>
-
-    <label>
-        <input type="radio" name="disliked_cuisine" value="Asian">
-        Asian
-    </label>
-
-    <label>
-        <input type="radio" name="disliked_cuisine" value="American">
-        American
-    </label>
-
+    {{ form.disliked_cuisine }}
+    {{ form.disliked_cuisine.errors }}
 
     <h3>Dietary Restrictions</h3>
-
-    <input
-        type="text"
-        name="dietary_restrictions"
-        placeholder="e.g. Vegetarian, vegan, gluten-free"
-    >
-
+    {{ form.dietary_restrictions }}
+    {{ form.dietary_restrictions.errors }}
 
     <h3>Favorite Food</h3>
-
-    <input
-        type="text"
-        name="favorite_food"
-        placeholder="e.g. Sushi, pizza, tacos"
-    >
-
+    {{ form.favorite_food }}
+    {{ form.favorite_food.errors }}
 
     <h3>Preferred Restaurant Price Range</h3>
-
-    <label>
-        <input type="radio" name="preferred_price_range" value="$" required>
-        $
-    </label>
-
-    <label>
-        <input type="radio" name="preferred_price_range" value="$$">
-        $$
-    </label>
-
-    <label>
-        <input type="radio" name="preferred_price_range" value="$$$">
-        $$$
-    </label>
-
+    {{ form.preferred_price_range }}
+    {{ form.preferred_price_range.errors }}
 
     <h3>Preferred Dining Atmosphere</h3>
-
-    <label>
-        <input type="radio" name="preferred_dining_atmosphere" value="Casual" required>
-        Casual
-    </label>
-
-    <label>
-        <input type="radio" name="preferred_dining_atmosphere" value="Quiet">
-        Quiet
-    </label>
-
-    <label>
-        <input type="radio" name="preferred_dining_atmosphere" value="Social">
-        Social
-    </label>
-
+    {{ form.preferred_dining_atmosphere }}
+    {{ form.preferred_dining_atmosphere.errors }}
 
     <h3>Willing to Try New Foods?</h3>
+    {{ form.willing_to_try_new_foods }}
+    {{ form.willing_to_try_new_foods.errors }}
 
-    <label>
-        <input type="radio" name="willing_to_try_new_foods" value="True" required>
-        Yes
-    </label>
-
-    <label>
-        <input type="radio" name="willing_to_try_new_foods" value="False">
-        No
-    </label>
-
+    {{ form.non_field_errors }}
 
     <br><br>
 
