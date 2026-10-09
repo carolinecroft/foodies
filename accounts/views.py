@@ -84,8 +84,13 @@ def profile(request):
         user=request.user
     ).first()
 
+    preferences = FoodPreferences.objects.filter(
+        profile=user_profile
+    ).first()
+
     context = {
-        "profile_setup": user_profile
+        "profile_setup": user_profile,
+        "food_preferences": preferences
     }
 
     return render(request, "profile.html", context)
