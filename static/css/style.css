@@ -1,97 +1,36 @@
+
+/* Foodies shared color palette */
+:root {
+    --sage: #536F49;
+    --sage-dark: #3F5837;
+    --sage-light: #E6EEDF;
+    --terracotta: #A94F37;
+    --butter-yellow: #F5D98B;
+    --cream: #FFF9F0;
+    --charcoal: #30382F;
+    --border: #CBD6C3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--cream);
+    color: var(--charcoal);
 }
+
+/* Header and navigation */
 
 header {
     padding: 20px;
-    background-color: #ffffff;
+    background-color: white;
+    border-bottom: 1px solid var(--border);
 }
-
-main {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 10px;
-}
-
-h2 {
-    margin-bottom: 10px;
-}
-
-h3 {
-    margin-top: 25px;
-}
-
-label {
-    margin: 5px 10px;
-}
-
-button {
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-
-/* Foodies colors and basic styling for the sample video */
-
-body {
-    background-color: #fff8f5;
-    color: #333333;
-}
-
-/* Header styling */
-header {
-    border-bottom: 1px solid #eeeeee;
-}
-
-header h1 {
-    margin: 0;
-    color: #c94c5c;
-}
-
-/* Heading colors */
-h2 {
-    color: #c94c5c;
-}
-
-/* Form fields */
-input[type="number"],
-textarea,
-select {
-    padding: 8px;
-    border: 1px solid #cccccc;
-    border-radius: 6px;
-}
-
-/* Button styling */
-button {
-    border: none;
-    border-radius: 6px;
-    background-color: #c94c5c;
-    color: white;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #a93e4c;
-}
-
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-input[type="text"] {
-    padding: 8px;
-    width: 80%;
-    max-width: 400px;
-}
-
-/* Header navigation */
 
 .header-content {
     max-width: 1000px;
@@ -99,31 +38,169 @@ input[type="text"] {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .header-content h1 {
+    margin: 0;
     font-size: 28px;
+    color: var(--terracotta);
 }
 
 nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 25px;
 }
 
 nav a {
-    color: #333333;
+    color: var(--charcoal);
     text-decoration: none;
     font-size: 15px;
     font-weight: bold;
 }
 
-nav a:hover {
-    color: #c94c5c;
+nav a:hover,
+nav a.active {
+    color: var(--terracotta);
 }
 
-/* Highlight the current page in the navigation */
 nav a.active {
-    color: #c94c5c;
-    border-bottom: 2px solid #c94c5c;
+    border-bottom: 2px solid var(--terracotta);
     padding-bottom: 5px;
+}
+
+/* Main page layout */
+
+main {
+    width: calc(100% - 32px);
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+h2 {
+    color: var(--terracotta);
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-top: 25px;
+    color: var(--charcoal);
+}
+
+/* Form fields */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font: inherit;
+    background-color: white;
+    color: var(--charcoal);
+}
+
+form h3 {
+    margin-top: 24px;
+    margin-bottom: 10px;
+}
+
+form label {
+    margin: 8px 0;
+}
+
+/* Buttons */
+
+button,
+input[type="submit"] {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--sage);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: var(--sage-dark);
+}
+
+button:disabled,
+input[type="submit"]:disabled {
+    background-color: #999999;
+    cursor: not-allowed;
+}
+
+/* Keyboard accessibility */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 3px;
+}
+
+/* Validation errors */
+
+.errorlist {
+    color: #A12B3B;
+    font-weight: bold;
+    padding-left: 20px;
+}
+
+/* Optional highlight styling */
+
+.highlight {
+    background-color: var(--butter-yellow);
+    color: var(--charcoal);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+
+/* Mobile layout */
+
+@media (max-width: 600px) {
+    header {
+        padding: 15px;
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        justify-content: center;
+        gap: 12px 18px;
+    }
+
+    main {
+        width: calc(100% - 24px);
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    button {
+        max-width: 100%;
+    }
 }
