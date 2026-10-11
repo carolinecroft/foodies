@@ -86,7 +86,7 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'home'
-LOGIN_REDIRECT_URL = 'profile_setup'
+LOGIN_REDIRECT_URL = 'profile'
 
 
 # Password validation
