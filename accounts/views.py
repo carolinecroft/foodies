@@ -34,7 +34,7 @@ def food_preferences(request):
             saved_preferences.profile = user_profile
             saved_preferences.save()
 
-            return redirect("food_preferences")
+            return redirect("profile")
 
     else:
         # Show saved values when returning to the page
