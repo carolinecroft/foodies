@@ -34,7 +34,7 @@ def food_preferences(request):
             saved_preferences.profile = user_profile
             saved_preferences.save()
 
-            return redirect("food_preferences")
+            return redirect("profile")
 
     else:
         # Show saved values when returning to the page
@@ -59,6 +59,7 @@ def profile_setup(request):
     if request.method == "POST":
         form = ProfileForm(
             request.POST,
+            request.FILES,
             instance=existing_profile,
         )
 
