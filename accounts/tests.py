@@ -66,3 +66,41 @@ class AccountTests(TestCase):
         self.assertEqual(saved_preferences.preferred_price_range, "Moderate")
         self.assertEqual(saved_preferences.preferred_dining_atmosphere, "Casual")
         self.assertTrue(saved_preferences.willing_to_try_new_foods)
+        
+    def test_users_have_separate_profiles(self):
+        User = get_user_model()
+
+        user1 = User.objects.create_user(
+            email="user1@example.com",
+            password="testpassword123"
+        )
+
+        user2 = User.objects.create_user(
+            email="user2@example.com",
+            password="testpassword123"
+        )
+
+        Profile.objects.create(
+            user=user1,
+            name="User One",
+            age=21,
+            gender="F",
+            location="Lakeland"
+        )
+
+        Profile.objects.create(
+            user=user2,
+            name="User Two",
+            age=22,
+            gender="M",
+            location="Tampa"
+        )
+
+        self.client.force_login(user1)
+        response = self.client.get(reverse("profile"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context["profile_setup"].name,
+            "User One"
+        )
