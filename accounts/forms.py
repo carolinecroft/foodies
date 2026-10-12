@@ -65,6 +65,7 @@ class ProfileForm(forms.ModelForm):
             "interested_in",
             "distance_preference",
             "profile_prompt",
+            "photo",
         ]
 
         labels = {

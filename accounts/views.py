@@ -59,6 +59,7 @@ def profile_setup(request):
     if request.method == "POST":
         form = ProfileForm(
             request.POST,
+            request.FILES,
             instance=existing_profile,
         )
 

@@ -11,12 +11,16 @@
     {% endif %}
 </h2>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
     {{ form.non_field_errors }}
 
-    <p>Profile photo upload will be added later.</p>
+    <p>
+        {{ form.photo.label_tag }}
+        {{ form.photo }}
+    </p>
+    {{ form.photo.errors }} 
 
     <p>
         {{ form.name.label_tag }}

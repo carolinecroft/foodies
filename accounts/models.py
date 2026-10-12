@@ -17,6 +17,10 @@ class Profile(models.Model):
         validators=[MinValueValidator(1)],
     )
     profile_prompt = models.CharField(max_length=300, blank=True)
+    photo = models.ImageField(
+    upload_to="profile_photos/",
+    blank=True
+)
     
 
     def __str__(self):

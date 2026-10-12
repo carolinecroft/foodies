@@ -61,6 +61,7 @@
             width: 120px;
             height: 120px;
             border-radius: 10px;
+            object-fit: cover;
         }
 
         .photo-placeholder {
@@ -93,6 +94,9 @@
 
                         {% if profile_setup.photo %}
 
+                            <img src="{{ profile_setup.photo.url }}"
+                                alt="{{ profile_setup.name }}'s profile picture"
+                                class="profile-photo">
 
                         {% else %}
 

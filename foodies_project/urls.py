@@ -19,6 +19,8 @@ from django.urls import include, path
 from accounts import views
 from django.contrib.auth import views as auth_views
 from users.views import signup
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +32,6 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path("profile/setup/", views.profile_setup, name="profile_setup"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
