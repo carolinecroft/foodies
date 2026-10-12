@@ -58,7 +58,9 @@ python manage.py runserver
 Once the development server is running, the current pages can be accessed at:
 
 - **Home:** http://127.0.0.1:8000/
-- **Create Profile:** http://127.0.0.1:8000/profile/setup/
+- **Sign Up:** http://127.0.0.1:8000/signup/
+- **Login:** http://127.0.0.1:8000/login/
+- **Create/Edit Profile:** http://127.0.0.1:8000/profile/setup/
 - **Food Preferences:** http://127.0.0.1:8000/food-preferences/
 - **My Profile:** http://127.0.0.1:8000/profile/
 
@@ -138,3 +140,24 @@ After pull request is merged, everyone should update their local copy:
 git switch main 
 git pull 
 
+## Running Tests
+
+To run all automated Django tests:
+
+    python manage.py test
+
+To run only the accounts tests:
+
+    python manage.py test accounts
+
+Django uses a separate temporary test database, so running tests will not change existing user information.
+
+## Current Features (Sprint 2)
+
+- User signup, login, and logout
+- Create and edit dating profiles
+- Upload and update an optional profile picture
+- Create and edit food preferences
+- View saved profile information
+- Save user information between sessions
+- Basic form validation and account authentication
