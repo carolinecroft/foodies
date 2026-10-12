@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 from .models import Profile, FoodPreferences
 
@@ -104,3 +105,22 @@ class AccountTests(TestCase):
             response.context["profile_setup"].name,
             "User One"
         )
+
+    def test_profile_rejects_underage_user(self):
+        User = get_user_model()
+
+        user = User.objects.create_user(
+            email="underage@example.com",
+            password="testpassword123"
+        )
+
+        profile = Profile(
+            user=user,
+            name="Underage Test",
+            age=17,
+            gender="F",
+            location="Lakeland"
+        )
+
+        with self.assertRaises(ValidationError):
+            profile.full_clean()
