@@ -32,6 +32,7 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path("profile/setup/", views.profile_setup, name="profile_setup"),
     path('restaurants/', include('restaurants.urls')),
+    path('matching/', include('matching.urls')),
 ]
 
 if settings.DEBUG:

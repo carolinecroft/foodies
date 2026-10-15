@@ -256,3 +256,86 @@ textarea:focus-visible {
     outline: 3px solid #b45139;
     outline-offset: 3px;
 }
+
+
+/* Responsive Header Navigation */
+
+/* Desktop: show regular navigation, hide dropdown */
+.desktop-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+/* Smaller screens: show dropdown instead */
+@media screen and (max-width: 1200px) {
+
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+        position: relative;
+    }
+
+    .mobile-menu summary {
+        display: block;
+        list-style: none;
+        cursor: pointer;
+        background-color: var(--sage);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .mobile-menu summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .mobile-menu summary:focus-visible {
+        outline: 3px solid var(--terracotta);
+        outline-offset: 3px;
+    }
+
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 8px;
+        padding: 20px;
+        width: 220px;
+        max-width: calc(100vw - 30px);
+        background-color: white;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .mobile-nav a {
+        display: block;
+    }
+
+    .mobile-nav form {
+        margin: 0;
+    }
+}
+
+/* Keep the Foodies logo and menu side by side on phones */
+@media screen and (max-width: 600px) {
+    .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
