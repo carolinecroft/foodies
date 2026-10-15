@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'users',
     'restaurants',
+    'matching',
 ]
 
 MIDDLEWARE = [
