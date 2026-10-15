@@ -206,3 +206,53 @@ textarea:focus-visible {
         max-width: 100%;
     }
 }
+
+
+/* Restaurant Browsing Page */
+
+.restaurant-list {
+    display: grid;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.restaurant-card {
+    background-color: #faf7f0;
+    border: 1px solid #e5dfd4;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.restaurant-card h2 {
+    margin-top: 0;
+    color: #b45139;
+}
+
+.restaurant-card p {
+    margin: 10px 0;
+}
+
+.restaurant-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.restaurant-links a {
+    display: inline-block;
+    background-color: #526e4d;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.restaurant-links a:hover {
+    background-color: #3d5638;
+}
+
+.restaurant-links a:focus-visible {
+    outline: 3px solid #b45139;
+    outline-offset: 3px;
+}
