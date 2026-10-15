@@ -31,6 +31,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('', include('accounts.urls')),
     path("profile/setup/", views.profile_setup, name="profile_setup"),
+    path('restaurants/', include('restaurants.urls')),
 ]
 
 if settings.DEBUG:
