@@ -206,3 +206,136 @@ textarea:focus-visible {
         max-width: 100%;
     }
 }
+
+
+/* Restaurant Browsing Page */
+
+.restaurant-list {
+    display: grid;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.restaurant-card {
+    background-color: #faf7f0;
+    border: 1px solid #e5dfd4;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.restaurant-card h2 {
+    margin-top: 0;
+    color: #b45139;
+}
+
+.restaurant-card p {
+    margin: 10px 0;
+}
+
+.restaurant-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.restaurant-links a {
+    display: inline-block;
+    background-color: #526e4d;
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+}
+
+.restaurant-links a:hover {
+    background-color: #3d5638;
+}
+
+.restaurant-links a:focus-visible {
+    outline: 3px solid #b45139;
+    outline-offset: 3px;
+}
+
+
+/* Responsive Header Navigation */
+
+/* Desktop: show regular navigation, hide dropdown */
+.desktop-nav {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+/* Smaller screens: show dropdown instead */
+@media screen and (max-width: 1200px) {
+
+    .desktop-nav {
+        display: none;
+    }
+
+    .mobile-menu {
+        display: block;
+        position: relative;
+    }
+
+    .mobile-menu summary {
+        display: block;
+        list-style: none;
+        cursor: pointer;
+        background-color: var(--sage);
+        color: white;
+        padding: 10px 16px;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .mobile-menu summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .mobile-menu summary:focus-visible {
+        outline: 3px solid var(--terracotta);
+        outline-offset: 3px;
+    }
+
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 8px;
+        padding: 20px;
+        width: 220px;
+        max-width: calc(100vw - 30px);
+        background-color: white;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .mobile-nav a {
+        display: block;
+    }
+
+    .mobile-nav form {
+        margin: 0;
+    }
+}
+
+/* Keep the Foodies logo and menu side by side on phones */
+@media screen and (max-width: 600px) {
+    .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
