@@ -56,7 +56,7 @@ def score_food_preferences(first, second):
 
     for person, other in ((first, second)), ((second, first)):
         favorite = normalize(person.favorite_cuisine)
-        disliked = normalize(person.disliked_cuisine)
+        disliked = normalize(other.disliked_cuisine)
 
         if favorite and disliked and favorite == disliked:
             cuisine_conflicts += 1
