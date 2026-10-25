@@ -3,7 +3,7 @@ from accounts.models import FoodPreferences
 from matching.services import score_food_preferences
 
 class FoodCompatibilityTest(SimpleTestCase):
-    def test_score_food_preferences(self, **overrides):
+    def make_preferences(self, **overrides):
         values = {
             "favorite_cuisine": "Italian",
             "disliked_cuisine": "",
@@ -17,8 +17,8 @@ class FoodCompatibilityTest(SimpleTestCase):
         return FoodPreferences(**values)
 
     def test_matching_preference_score_100(self):
-        first = self.test_score_food_preferences()
-        second = self.test_score_food_preferences()
+        first = self.make_preferences()
+        second = self.make_preferences()
         result = score_food_preferences(first, second)
         self.assertEqual(result["score"], 100)
         self.assertIsNone(result["reason"])
@@ -40,7 +40,7 @@ class FoodCompatibilityTest(SimpleTestCase):
         result = score_food_preferences(first, second)
         self.assertEqual(result["score"], 0)
 
-    def test_price_and_atmosphere_match(self):
+    def test_price_and_atmosphere_mismatch(self):
         first = self.make_preferences()
         second = self.make_preferences(
             preferred_price_range="$$$",

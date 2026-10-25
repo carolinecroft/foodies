@@ -23,7 +23,7 @@ def score_food_preferences(first, second):
         }
 
     earned_weight = 0
-    avaliable_weight = 0
+    available_weight = 0
     breakdown = {}
 
     for field, weight in WEIGHTED_FIELDS:
@@ -34,7 +34,7 @@ def score_food_preferences(first, second):
             continue
 
         matched = first_value == second_value
-        avaliable_weight += weight
+        available_weight += weight
 
         if matched:
             earned_weight += weight
@@ -44,7 +44,7 @@ def score_food_preferences(first, second):
             "weight": weight,
         }
 
-    if avaliable_weight == 0:
+    if available_weight == 0:
         return {
             "score": None,
             "reason": "Not enough data to calculate a score",
@@ -61,7 +61,7 @@ def score_food_preferences(first, second):
         if favorite and disliked and favorite == disliked:
             cuisine_conflicts += 1
 
-    base_score = earned_weight / avaliable_weight * 100
+    base_score = earned_weight / available_weight * 100
     final_score = max(0, min(100, base_score - (cuisine_conflicts * 15))) 
 
     return {
@@ -73,8 +73,8 @@ def score_food_preferences(first, second):
 
 def calculate_food_compatibility(user1, user2):
     preferences = {
-        preferences.profile.user.id: preferences
-        for preferences in FoodPreferences.objects.filter(
+        preferences.profile.user_id: preference
+        for preference in FoodPreferences.objects.filter(
             profile__user_id__in=[user1.pk, user2.pk]
         ).select_related("profile")
     }
