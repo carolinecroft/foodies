@@ -95,3 +95,16 @@ def profile(request):
     }
 
     return render(request, "profile.html", context)
+
+@login_required
+def discovery(request): 
+
+    profiles = Profile.objects.exclude(
+        user=request.user
+    )
+
+    context = {
+        "profiles": profiles
+    }
+
+    return render(request, "discover.html", context)
