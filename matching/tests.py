@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError, transaction
 from django.test import TestCase, SimpleTestCase
+from django.urls import reverse
 
 from accounts.models import FoodPreferences
 from .models import Interaction, Match
@@ -249,3 +250,181 @@ class FoodCompatibilityTest(SimpleTestCase):
         self.assertEqual(result["score"], 50)
         self.assertEqual(result["cuisine_conflicts"], 1)
         self.assertEqual(result, reversed_result)
+
+
+# Sprint 4 - My Matches and Match Detail Tests
+
+class MatchPageTests(TestCase):
+
+    def setUp(self):
+        # Create three sample users
+        self.alice = User.objects.create_user(
+            email="alice@example.com",
+            password="testpassword123",
+        )
+
+        self.bob = User.objects.create_user(
+            email="bob@example.com",
+            password="testpassword123",
+        )
+
+        self.charlie = User.objects.create_user(
+            email="charlie@example.com",
+            password="testpassword123",
+        )
+
+        # Alice and Bob mutually like each other
+        record_interaction(self.alice, self.bob, Interaction.LIKE)
+        record_interaction(self.bob, self.alice, Interaction.LIKE)
+
+        self.match = Match.objects.get()
+
+    def test_matches_page_requires_login(self):
+        # Logged-out users should be redirected
+        response = self.client.get(reverse("matches"))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login", response.url)
+
+    def test_match_detail_requires_login(self):
+        response = self.client.get(
+            reverse("match_detail", args=[self.match.id])
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login", response.url)
+
+    def test_matches_page_shows_own_match(self):
+        # Alice should see her match with Bob
+        self.client.force_login(self.alice)
+
+        response = self.client.get(reverse("matches"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "matching/matches.html")
+        self.assertEqual(len(response.context["matches"]), 1)
+
+        match_item = response.context["matches"][0]
+
+        self.assertEqual(match_item["match"], self.match)
+        self.assertEqual(match_item["other_user"], self.bob)
+
+    def test_other_user_sees_same_match(self):
+        # Bob should also see the match with Alice
+        self.client.force_login(self.bob)
+
+        response = self.client.get(reverse("matches"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context["matches"]), 1)
+
+        match_item = response.context["matches"][0]
+
+        self.assertEqual(match_item["match"], self.match)
+        self.assertEqual(match_item["other_user"], self.alice)
+
+    def test_unrelated_user_cannot_see_match(self):
+        # Charlie should not see Alice and Bob's match
+        self.client.force_login(self.charlie)
+
+        response = self.client.get(reverse("matches"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.context["matches"]), 0)
+        self.assertNotContains(
+            response,
+            reverse("match_detail", args=[self.match.id]),
+        )
+
+    def test_empty_matches_state(self):
+        # Charlie has no matches
+        self.client.force_login(self.charlie)
+
+        response = self.client.get(reverse("matches"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "No matches yet!")
+        self.assertContains(response, "Explore Profiles")
+
+    def test_match_detail_access_for_alice(self):
+        self.client.force_login(self.alice)
+
+        response = self.client.get(
+            reverse("match_detail", args=[self.match.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(
+            response,
+            "matching/match_detail.html",
+        )
+        self.assertEqual(response.context["match"], self.match)
+        self.assertEqual(response.context["other_user"], self.bob)
+
+    def test_match_detail_access_for_bob(self):
+        self.client.force_login(self.bob)
+
+        response = self.client.get(
+            reverse("match_detail", args=[self.match.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context["other_user"], self.alice)
+
+    def test_unrelated_user_cannot_open_match(self):
+        # Charlie should receive a 404
+        self.client.force_login(self.charlie)
+
+        response = self.client.get(
+            reverse("match_detail", args=[self.match.id])
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_nonexistent_match_returns_404(self):
+        self.client.force_login(self.alice)
+
+        response = self.client.get(
+            reverse("match_detail", args=[999999])
+        )
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_matches_page_links_to_detail(self):
+        self.client.force_login(self.alice)
+
+        response = self.client.get(reverse("matches"))
+
+        self.assertContains(
+            response,
+            reverse("match_detail", args=[self.match.id]),
+        )
+        self.assertContains(response, "View Match")
+
+    def test_match_detail_links_to_restaurants(self):
+        # Verify Caroline's restaurant recommendation URL
+        self.client.force_login(self.alice)
+
+        response = self.client.get(
+            reverse("match_detail", args=[self.match.id])
+        )
+
+        expected_url = (
+            f"/restaurants/recommendations/{self.match.id}/"
+        )
+
+        self.assertContains(response, expected_url)
+        self.assertContains(
+            response,
+            "Find Restaurants for Us",
+        )
+
+    def test_match_detail_links_back_to_matches(self):
+        self.client.force_login(self.alice)
+
+        response = self.client.get(
+            reverse("match_detail", args=[self.match.id])
+        )
+
+        self.assertContains(response, reverse("matches"))
+        self.assertContains(response, "Back to My Matches")
