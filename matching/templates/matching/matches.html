@@ -1,10 +1,58 @@
+
 {% extends "base.html" %}
 
-{% block title %}Matches | Foodies{% endblock title %}
+{% block title %}My Matches | Foodies{% endblock title %}
 
 {% block content %}
 
-<h1>Your Matches</h1>
-<p>View your mutual matches here!</p>
+<section class="matches-page">
+    <div class="matches-heading">
+        <h1>My Matches</h1>
+        <p>See who you've connected with and find somewhere to eat together!</p>
+    </div>
+
+    {% if matches %}
+        <div class="matches-grid">
+            {% for item in matches %}
+                <article class="match-card">
+                    <div class="match-card-content">
+                        <span class="match-label">Mutual Match</span>
+
+                        <h2>
+                            {% if item.other_user.profile.name %}
+                                {{ item.other_user.profile.name }}
+                            {% else %}
+                                {{ item.other_user.email }}
+                            {% endif %}
+                        </h2>
+
+                        <p>You both liked each other!</p>
+
+                        <p class="match-date">
+                            Matched {{ item.match.created_at|date:"M j, Y" }}
+                        </p>
+
+                        <a href="{% url 'match_detail' item.match.id %}"
+                           class="match-button">
+                            View Match
+                        </a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="matches-empty">
+            <h2>No matches yet!</h2>
+            <p>
+                When you and another Foodies user like each other,
+                your match will appear here.
+            </p>
+
+            <a href="{% url 'discover' %}" class="match-button">
+                Explore Profiles
+            </a>
+        </div>
+    {% endif %}
+</section>
 
 {% endblock content %}

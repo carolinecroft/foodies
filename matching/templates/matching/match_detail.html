@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+
+{% block title %}Match Details | Foodies{% endblock title %}
+
+{% block content %}
+
+<section class="match-detail-page">
+
+    <a href="{% url 'matches' %}" class="match-back-link">
+        &larr; Back to My Matches
+    </a>
+
+    <div class="match-detail-card">
+        <span class="match-label">It's a Match!</span>
+
+        <h1>
+            {% if other_user.profile.name %}
+                {{ other_user.profile.name }}
+            {% else %}
+                {{ other_user.email }}
+            {% endif %}
+        </h1>
+
+        <p>
+            You and this Foodies user liked each other!
+            Now it's time to find somewhere to eat together.
+        </p>
+
+        <p class="match-date">
+            Matched on {{ match.created_at|date:"F j, Y" }}
+        </p>
+
+        <div class="match-detail-actions">
+            <a href="/restaurants/recommendations/{{ match.id }}/"
+               class="match-button">
+                Find Restaurants for Us
+            </a>
+
+            <a href="{% url 'matches' %}"
+               class="match-secondary-button">
+                All My Matches
+            </a>
+        </div>
+    </div>
+
+</section>
+
+{% endblock content %}

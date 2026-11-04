@@ -339,3 +339,190 @@ textarea:focus-visible {
     }
 }
 
+
+/* Sprint 4 - My Matches and Match Details */
+
+.matches-page,
+.match-detail-page {
+    width: 100%;
+}
+
+/* Page headings */
+
+.matches-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.matches-heading h1 {
+    color: var(--terracotta);
+    margin-bottom: 8px;
+}
+
+.matches-heading p {
+    color: var(--charcoal);
+    margin-top: 0;
+}
+
+/* Match cards */
+
+.matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.match-card {
+    background-color: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: box-shadow 0.2s ease;
+}
+
+.match-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.match-card h2 {
+    color: var(--terracotta);
+    margin: 12px 0;
+    overflow-wrap: anywhere;
+}
+
+.match-card p {
+    margin: 10px 0;
+}
+
+.match-label {
+    display: inline-block;
+    background-color: var(--sage-light);
+    color: var(--sage-dark);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.match-date {
+    color: #667060;
+    font-size: 14px;
+}
+
+/* Match buttons */
+
+.match-button,
+.match-secondary-button {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.match-button {
+    background-color: var(--sage);
+    color: white;
+}
+
+.match-button:hover {
+    background-color: var(--sage-dark);
+}
+
+.match-secondary-button {
+    background-color: var(--sage-light);
+    color: var(--sage-dark);
+}
+
+.match-secondary-button:hover {
+    background-color: var(--border);
+}
+
+.match-card .match-button {
+    margin-top: 12px;
+}
+
+/* Empty matches state */
+
+.matches-empty {
+    text-align: center;
+    background-color: var(--cream);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 35px 25px;
+}
+
+.matches-empty h2 {
+    color: var(--terracotta);
+    margin-top: 0;
+}
+
+.matches-empty p {
+    margin-bottom: 25px;
+}
+
+/* Match detail page */
+
+.match-back-link {
+    display: inline-block;
+    color: var(--sage-dark);
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.match-back-link:hover {
+    color: var(--terracotta);
+    text-decoration: underline;
+}
+
+.match-detail-card {
+    background-color: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+}
+
+.match-detail-card h1 {
+    color: var(--terracotta);
+    margin: 15px 0;
+    overflow-wrap: anywhere;
+}
+
+.match-detail-card p {
+    margin: 15px 0;
+}
+
+.match-detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+/* Responsive match pages */
+
+@media (max-width: 600px) {
+    .matches-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .match-card,
+    .match-detail-card {
+        padding: 20px;
+    }
+
+    .match-detail-actions {
+        flex-direction: column;
+    }
+
+    .match-detail-actions a {
+        width: 100%;
+    }
+}
