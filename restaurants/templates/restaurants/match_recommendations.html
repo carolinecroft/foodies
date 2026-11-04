@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block title %}Restaurant Recommendations | Foodies{% endblock title %}
+
+{% block content %}
+
+<h1>Restaurants for {{ profile1.name }} & {{ profile2.name }}</h1>
+
+<p>Find the perfect restaurant for your next Foodies date!</p>
+
+<h2>Your Restaurant Recommendations</h2>
+
+{% if dietary_restrictions %}
+    <p>
+        <strong>Dietary considerations:</strong>
+        {{ dietary_restrictions|join:", " }}
+    </p>
+    <p>
+        Please confirm dietary accommodations directly
+        with the restaurant before visiting.
+    </p>
+{% endif %}
+
+<div class="restaurant-list">
+    {% for restaurant in restaurants %}
+        <div class="restaurant-card">
+            <h2>🍽️ {{ restaurant.name }}</h2>
+
+            <p>🥗 Cuisine: {{ restaurant.cuisine }}</p>
+            <p>📍 Location: {{ restaurant.location }}</p>
+            <p>💰 Price Range: {{ restaurant.price_range }}</p>
+
+            <div class="restaurant-links">
+                {% if restaurant.website %}
+                    <a href="{{ restaurant.website }}"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        🌐 Visit Website
+                    </a>
+                {% endif %}
+
+                <a href="{{ restaurant.maps_url }}"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    🗺️ Get Directions
+                </a>
+            </div>
+        </div>
+    {% empty %}
+        <p>No restaurant recommendations are available right now.</p>
+    {% endfor %}
+</div>
+
+{% endblock content %}

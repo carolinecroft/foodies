@@ -65,7 +65,44 @@ def match_recommendations(request, match_id):
                 restaurant["price_range"] != preferred_price
             )
         )
+    
+    # Collect cuisines disliked by either user
+    disliked_cuisines = {
+        cuisine.strip().lower()
+        for preferences in (preferences1, preferences2)
+        for cuisine in preferences.disliked_cuisine.split(",")
+        if cuisine.strip() and cuisine.strip().lower() != "none"
+    }
 
-    return render(request, 'restaurants/restaurant_list.html', {
-        'restaurants': restaurants
+    # Exclude restaurants explicitly categorized as a disliked cuisine
+    restaurants = [
+        restaurant
+        for restaurant in restaurants
+        if not any(
+            disliked in restaurant["cuisine"].lower()
+            for disliked in disliked_cuisines
+        )
+    ]
+    
+    # Collect dietary restrictions from both matched users
+    dietary_restrictions = set()
+
+    for preferences in (preferences1, preferences2):
+        for restriction in preferences.dietary_restrictions.split(","):
+            restriction = restriction.strip()
+
+            if restriction and restriction.lower() != "none":
+                dietary_restrictions.add(restriction)
+
+    dietary_restrictions = sorted(dietary_restrictions)
+
+
+    
+    return render(request, "restaurants/match_recommendations.html", {
+        "restaurants": restaurants,
+        "match": match,
+        "profile1": profile1,
+        "profile2": profile2,
+        "dietary_restrictions": dietary_restrictions,
     })
+
