@@ -8,6 +8,14 @@ from urllib.parse import quote_plus
 
 logger = logging.getLogger(__name__)
 
+PRICE_LEVELS = {
+    "PRICE_LEVEL_FREE": "Free",
+    "PRICE_LEVEL_INEXPENSIVE": "$",
+    "PRICE_LEVEL_MODERATE": "$$",
+    "PRICE_LEVEL_EXPENSIVE": "$$$",
+    "PRICE_LEVEL_VERY_EXPENSIVE": "$$$$",
+}
+
 
 def search_restaurants(query="restaurants in Lakeland Florida"):
     """Get restaurant information from Google Places API."""
@@ -23,7 +31,10 @@ def search_restaurants(query="restaurants in Lakeland Florida"):
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": settings.GOOGLE_PLACES_API_KEY,
-        "X-Goog-FieldMask": "places.displayName,places.formattedAddress",
+        "X-Goog-FieldMask": (
+            "places.displayName,places.formattedAddress,"
+            "places.primaryTypeDisplayName,places.priceLevel"
+        ),  
     }
 
     data = {
@@ -44,12 +55,20 @@ def search_restaurants(query="restaurants in Lakeland Florida"):
         for place in response.json().get("places", []):
             name = place.get("displayName", {}).get("text", "")
             address = place.get("formattedAddress", "")
+            
+            cuisine = place.get("primaryTypeDisplayName", {}).get(
+                "text", "Restaurant"
+            )
+
+            price_level = PRICE_LEVELS.get(
+                place.get("priceLevel"), "Not available"
+            )
 
             restaurants.append({
                 "name": name,
                 "location": address,
-                "cuisine": "Restaurant",
-                "price_range": "Not available",
+                "cuisine": cuisine,
+                "price_range": price_level,
                 "website": None,
                 "maps_url": (
                     "https://www.google.com/maps/search/?api=1&query="
