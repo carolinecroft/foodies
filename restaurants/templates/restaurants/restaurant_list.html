@@ -17,9 +17,11 @@
             <p>💰 Price Range: {{ restaurant.price_range }}</p>
 
             <div class="restaurant-links">
-                <a href="{{ restaurant.website }}" target="_blank" rel="noopener noreferrer">
-                    🌐 Visit Website
-                </a>
+                {% if restaurant.website %}
+                    <a href="{{ restaurant.website }}" target="_blank" rel="noopener noreferrer">
+                        🌐 Visit Website
+                     </a>
+                {% endif %}
 
                 <a href="{{ restaurant.maps_url }}" target="_blank" rel="noopener noreferrer">
                     🗺️ Get Directions
