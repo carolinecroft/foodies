@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from accounts.models import Profile
+from .services import calculate_food_compatibility
 
 from .models import Match
 
@@ -61,5 +63,21 @@ def match_detail(request, match_id):
 
 
 @login_required
-def compatibility(request):
-    return render(request, 'matching/compatibility.html')
+def compatibility(request, profile_id=None):
+    profiles = (
+        Profile.objects.exclude(user=request.user)
+        .select_related("user")
+    )
+
+    other_profile = None
+    result = None
+
+    if profile_id is not None:
+        other_profile = get_object_or_404(profiles, pk=profile_id)
+        result = calculate_food_compatibility(request.user, other_profile.user)
+   
+    return render(request, 'matching/compatibility.html', {
+        "profiles": profiles,
+        "other_profile": other_profile,
+        "result": result,
+    })
