@@ -23,9 +23,9 @@
     <h2>Compatibility with {{ other_profile.name }}</h2>
 
     {% if compatibility_score != None %}
-        <p>Your compatibility score: {{ compatibility_score }}%</p>
+        <p>Your compatibility score: {{ result.score }}%</p>
     {% else %}
-        <p>{{ compatibility.reason }}</p>
+        <p>{{ result.reason }}</p>
         <p>Both people need saved food preferences to compare.</p>
     {% endif %}
 {% endif %}
