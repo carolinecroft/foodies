@@ -6,4 +6,5 @@ urlpatterns = [
     path('matches/', views.matches, name='matches'),
     path('matches/<int:match_id>/', views.match_detail, name='match_detail'),
     path('compatibility/', views.compatibility, name='compatibility'),
+    path('compatibility/<int:profile_id>/', views.compatibility, name='compatibility_detail'),
 ]

@@ -5,6 +5,29 @@
 {% block content %}
 
 <h1>Food Compatibility</h1>
-<p>See how your food preferences compare with other users!</p>
+<p>Choose a profile to see if you have similar food preferences!</p>
+
+<ul>
+    {% for profile in profiles %}
+    <li>
+        <a href="{% url 'compatibility_detail' profile.id %}">
+            Compare with {{ profile.name }}
+        </a>
+    </li>
+    {% empty %}
+    <li>No profiles available.</li>
+    {% endfor %}
+</ul>
+
+{% if other_profile %}
+    <h2>Compatibility with {{ other_profile.name }}</h2>
+
+    {% if compatibility_score != None %}
+        <p>Your compatibility score: {{ compatibility_score }}%</p>
+    {% else %}
+        <p>{{ compatibility.reason }}</p>
+        <p>Both people need saved food preferences to compare.</p>
+    {% endif %}
+{% endif %}
 
 {% endblock content %}
