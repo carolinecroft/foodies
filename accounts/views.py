@@ -97,14 +97,21 @@ def profile(request):
     return render(request, "profile.html", context)
 
 @login_required
-def discovery(request): 
+def discovery(request):
+    profiles = Profile.objects.exclude(user=request.user)
 
-    profiles = Profile.objects.exclude(
-        user=request.user
-    )
+    candidates = []
 
-    context = {
-        "profiles": profiles
-    }
+    for profile in profiles:
+        food_preferences = FoodPreferences.objects.filter(
+            profile=profile
+        ).first()
+
+        candidates.append({
+            "profile": profile,
+            "food_preferences": food_preferences,
+        })
+
+    context = {"candidates": candidates}
 
     return render(request, "discover.html", context)
