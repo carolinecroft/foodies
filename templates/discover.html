@@ -114,14 +114,49 @@
         font-style: italic;
     }
 
-    .no-profiles {
-        text-align: center;
-        color: #777;
-        padding: 30px;
+    /* Like and Pass buttons */
+    .interaction-buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-top: 25px;
     }
 
-    /* No more profiles empty state */
-    .no-more-profiles {
+    .interaction-buttons form {
+        flex: 1;
+    }
+
+    .interaction-buttons button {
+        width: 100%;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .pass-button {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .pass-button:hover {
+        background-color: #f1aeb5;
+    }
+
+    .like-button {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .like-button:hover {
+        background-color: #a3cfbb;
+    }
+
+    /* No more profiles */
+    .no-more-profiles,
+    .no-more-profiles-empty {
         display: none;
         width: 100%;
         box-sizing: border-box;
@@ -133,12 +168,20 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .no-more-profiles h2 {
+    .no-more-profiles-empty {
+        display: block;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .no-more-profiles h2,
+    .no-more-profiles-empty h2 {
         color: #333;
         margin-bottom: 15px;
     }
 
-    .no-more-profiles p {
+    .no-more-profiles p,
+    .no-more-profiles-empty p {
         color: #777;
         line-height: 1.6;
         margin-bottom: 10px;
@@ -172,7 +215,6 @@
         cursor: not-allowed;
     }
 
-    /* Profile counter */
     .profile-counter {
         text-align: center;
         color: #777;
@@ -271,8 +313,8 @@
                         <p class="preference-item">
                             <strong>Price Range:</strong>
 
-                            {% if food_preferences.price_preference %}
-                                {{ food_preferences.price_preference }}
+                            {% if food_preferences.preferred_price_range %}
+                                {{ food_preferences.preferred_price_range }}
                             {% else %}
                                 <span class="missing-info">
                                     Not provided
@@ -284,8 +326,8 @@
                         <p class="preference-item">
                             <strong>Dining Atmosphere:</strong>
 
-                            {% if food_preferences.dining_atmosphere %}
-                                {{ food_preferences.dining_atmosphere }}
+                            {% if food_preferences.preferred_dining_atmosphere %}
+                                {{ food_preferences.preferred_dining_atmosphere }}
                             {% else %}
                                 <span class="missing-info">
                                     Not provided
@@ -306,13 +348,50 @@
 
                     </section>
 
+                    <!-- Like and Pass buttons -->
+                    <div class="interaction-buttons">
+
+                        <form
+                            method="POST"
+                            action="{% url 'interact' profile.id %}"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                name="action"
+                                value="pass"
+                                class="pass-button"
+                            >
+                                Pass
+                            </button>
+                        </form>
+
+                        <form
+                            method="POST"
+                            action="{% url 'interact' profile.id %}"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                name="action"
+                                value="like"
+                                class="like-button"
+                            >
+                                Like
+                            </button>
+                        </form>
+
+                    </div>
+
                 </article>
 
                 {% endwith %}
 
             {% endfor %}
 
-            <!-- No more profiles empty state -->
+            <!-- End of carousel -->
             <div class="no-more-profiles" id="no-more-profiles">
 
                 <h2>No More Profiles!</h2>
@@ -329,7 +408,7 @@
 
         </div>
 
-        <!-- Carousel navigation -->
+        <!-- Previous and Next buttons -->
         <div class="carousel-controls">
 
             <button
@@ -362,32 +441,36 @@
 
     {% else %}
 
-        <p class="no-profiles">
-            No other profiles are available right now.
-        </p>
+        <div class="no-more-profiles-empty">
+
+            <h2>No More Profiles!</h2>
+
+            <p>
+                You've reached the end of the available profiles.
+            </p>
+
+            <p>
+                Check back later to discover more Foodies!
+            </p>
+
+        </div>
 
     {% endif %}
 
 </main>
 
 <script>
-    // Collect all profile cards
     const cards = document.querySelectorAll(".profile-card");
 
-    // Empty state
     const emptyState = document.getElementById("no-more-profiles");
 
-    // Navigation buttons
     const nextButton = document.getElementById("next-button");
     const previousButton = document.getElementById("previous-button");
 
-    // Profile counter
     const counter = document.getElementById("profile-counter");
 
-    // Current profile index
     let currentIndex = 0;
 
-    // Display selected profile or empty state
     function showProfile(index) {
 
         if (cards.length === 0) {
@@ -404,7 +487,7 @@
             emptyState.style.display = "none";
         }
 
-        // Display empty state after final profile
+        // Show empty state after final profile
         if (index >= cards.length) {
 
             if (emptyState) {
@@ -426,27 +509,23 @@
             return;
         }
 
-        // Display selected profile
+        // Show selected profile
         cards[index].classList.add("active");
 
-        // Update profile counter
         if (counter) {
             counter.textContent =
                 `Profile ${index + 1} of ${cards.length}`;
         }
 
-        // Enable Next button
         if (nextButton) {
             nextButton.disabled = false;
         }
 
-        // Disable Previous on first profile
         if (previousButton) {
             previousButton.disabled = (index === 0);
         }
     }
 
-    // Navigate to next profile
     function nextProfile() {
 
         if (currentIndex < cards.length) {
@@ -455,7 +534,6 @@
         }
     }
 
-    // Navigate to previous profile
     function previousProfile() {
 
         if (currentIndex > 0) {
@@ -464,7 +542,6 @@
         }
     }
 
-    // Display first profile when page loads
     showProfile(currentIndex);
 </script>
 
