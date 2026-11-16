@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 from users.views import signup
 from django.conf import settings
 from django.conf.urls.static import static
+from matching import views as matching_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +34,7 @@ urlpatterns = [
     path("profile/setup/", views.profile_setup, name="profile_setup"),
     path('restaurants/', include('restaurants.urls')),
     path('matching/', include('matching.urls')),
+    path('discover/', matching_views.discovery),
 ]
 
 if settings.DEBUG:
