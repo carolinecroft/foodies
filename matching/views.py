@@ -12,6 +12,7 @@ from .models import Match, Interaction
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from .services import calculate_food_compatibility, record_interaction
+from django.views.decorators.http import require_http_methods
 
 
 @login_required
@@ -130,21 +131,45 @@ def match_detail(request, match_id):
 
 
 @login_required
+@require_http_methods(["GET", "POST"])
 def compatibility(request, profile_id=None):
-    profiles = (
-        Profile.objects.exclude(user=request.user)
-        .select_related("user")
+    responded_user_ids = Interaction.objects.filter(
+        actor=request.user
+    ).values_list("target_id", flat=True)
+
+    incoming_likes = (
+        Interaction.objects.filter(
+            target = request.user,
+            action = Interaction.LIKE
+        )
+        .exclude(actor_id__in=responded_user_ids)
+        .select_related("actor__profile")
+        .order_by("created_at")
     )
 
-    other_profile = None
-    result = None
+    if request.method == "POST":
+        action = request.POST.get("action")
 
-    if profile_id is not None:
-        other_profile = get_object_or_404(profiles, pk=profile_id)
-        result = calculate_food_compatibility(request.user, other_profile.user)
-   
-    return render(request, 'matching/compatibility.html', {
-        "profiles": profiles,
-        "other_profile": other_profile,
-        "result": result,
-    })
+        if action not in (Interaction.LIKE, Interaction.PASS):
+            return redirect('compatibility')
+
+        incoming_like = get_object_or_404(
+            incoming_likes,
+            pk = request.POST.get("interaction_id")
+        )
+
+        try:
+            record_interaction(
+                actor = request.user,
+                target = incoming_like.actor,
+                action = action,
+            )
+
+        except ValidationError:
+            pass
+
+        return redirect('Liked_You')
+
+    return render(request, 'matching/Liked_You.html', {
+        "incoming_likes": incoming_likes,
+        })

@@ -25,7 +25,7 @@
                         <a href="{% url 'restaurant_list' %}" class="{% if request.resolver_match.url_name == 'restaurant_list' %}active{% endif %}">🍽️ Restaurants</a>
                         <a href="{% url 'discover' %}" class="{% if request.resolver_match.url_name == 'discover' %}active{% endif %}">💕 Discover</a>
                         <a href="{% url 'matches' %}" class="{% if request.resolver_match.url_name == 'matches' %}active{% endif %}">❤️ Matches</a>
-                        <a href="{% url 'compatibility' %}" class="{% if request.resolver_match.url_name == 'compatibility' %}active{% endif %}">🥗 Compatibility</a>
+                        <a href="{% url 'Liked_You' %}" class="{% if request.resolver_match.url_name == 'Liked_You' %}active{% endif %}">🥗 Liked You</a>
 
                         <form method="post" action="{% url 'logout' %}">
                             {% csrf_token %}
@@ -49,7 +49,7 @@
                             <a href="{% url 'restaurant_list' %}">🍽️ Restaurants</a>
                             <a href="{% url 'discover' %}">💕 Discover</a>
                             <a href="{% url 'matches' %}">❤️ Matches</a>
-                            <a href="{% url 'compatibility' %}">🥗 Compatibility</a>
+                            <a href="{% url 'Liked_You' %}">🥗 Liked You</a>
 
                             <form method="post" action="{% url 'logout' %}">
                                 {% csrf_token %}
