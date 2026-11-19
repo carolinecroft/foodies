@@ -6,6 +6,5 @@ urlpatterns = [
     path('interact/<int:profile_id>/', views.interact, name='interact'),
     path('matches/', views.matches, name='matches'),
     path('matches/<int:match_id>/', views.match_detail, name='match_detail'),
-    path('compatibility/', views.compatibility, name='compatibility'),
-    path('compatibility/<int:profile_id>/', views.compatibility, name='compatibility_detail'),
+    path("liked-you/", views.compatibility, name="Liked_You"),
 ]
