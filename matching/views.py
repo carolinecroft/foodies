@@ -15,13 +15,26 @@ from .services import calculate_food_compatibility, record_interaction
 from django.views.decorators.http import require_http_methods
 
 
+
+
 @login_required
 def discovery(request):
 
+    current_profile = Profile.objects.filter(
+        user=request.user
+    ).first()
+
+    if current_profile is None:
+        return redirect("profile_setup")
+
+    preferred_genders = current_profile.interested_in or []
+
+    # Exclude users already liked or passed
     interacted_user_ids = Interaction.objects.filter(
         actor=request.user
     ).values_list("target_id", flat=True)
 
+    # Exclude existing matches
     matched_user_ids = set()
 
     user_matches = Match.objects.filter(
@@ -34,32 +47,65 @@ def discovery(request):
         else:
             matched_user_ids.add(match.user1_id)
 
+    # Retrieve eligible profiles
     profiles = Profile.objects.exclude(
         user=request.user
     ).exclude(
         user_id__in=interacted_user_ids
     ).exclude(
         user_id__in=matched_user_ids
+    ).filter(
+        gender__in=preferred_genders
     ).select_related("user").order_by("pk")
 
     candidates = []
 
     for profile in profiles:
 
+        # Check mutual gender preferences
+        their_preferences = profile.interested_in or []
+
+        if current_profile.gender not in their_preferences:
+            continue
+
+        # Retrieve candidate food preferences
         food_preferences = FoodPreferences.objects.filter(
             profile=profile
         ).first()
 
+        # Use existing compatibility service
+        compatibility_result = calculate_food_compatibility(
+            request.user,
+            profile.user
+        )
+
+        # Extract the numeric score
+        compatibility_score = compatibility_result["score"]
+
         candidates.append({
-            "profile" : profile,
-            "food_preferences" : food_preferences,
+            "profile": profile,
+            "food_preferences": food_preferences,
+            "compatibility_score": compatibility_score,
         })
 
+    # Sort scored candidates from highest to lowest
+    # Missing scores appear last
+    # Profile ID breaks ties consistently
+    candidates.sort(
+        key=lambda candidate: (
+            candidate["compatibility_score"] is None,
+            -candidate["compatibility_score"]
+            if candidate["compatibility_score"] is not None
+            else 0,
+            candidate["profile"].pk
+        )
+    )
+
     context = {
-        "candidates" : candidates,
+        "candidates": candidates,
     }
 
-    return render(request, 'discover.html', context)
+    return render(request, "discover.html", context)
 
 @login_required
 @require_POST
