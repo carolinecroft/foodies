@@ -1,0 +1,68 @@
+MYTEMPLATE
+{% extends "base.html" %}
+
+{% block title %}Who Likes You | Foodies{% endblock title %}
+
+{% block content %}
+
+<h1>Who Like You!</h1>
+<p>Accept a match or pass if they don't meet your criteria.</p>
+
+<div class="matches-grid">
+    {% for incoming_like in incoming_likes %}
+        <article class "match-card">
+            {% with profile=incoming_like.actor.profile %}
+
+                {% if profile.photo %}
+                <img
+                    src="{{ profile.photo.url }}"
+                    alt="Photo of {{ profile.name }}"
+                    width="120"
+                    height="120"
+                    style = "object-fit: cover; border-radius: 10px;"
+                >
+
+                {% endif %}
+
+                <h2>{{ profile.name|default:"Foodies Member" }}</h2>
+
+                {% if profile.age %}
+                    <p>Age: {{ profile.age }}</p>
+                {% endif %}
+
+                {% if profile.location %}
+                    <p>Location: {{ profile.location }}</p>
+                {% endif %}
+
+                {% if profile.bio %}
+                    <p>Bio: {{ profile.bio }}</p>
+                {% endif %}
+
+                <p> This person likes your taste! </p>
+
+                <form method="post" action="{% url 'compatibility' %}">
+                    {% csrf_token %}
+
+                    <input 
+                        type="hidden"
+                        name="interaction_id"
+                        value="{{ incoming_like.id }}"
+                    >
+
+                    <button type="submit" name="action" value="like">
+                        Accept
+                    </button>
+
+                    <button type="submit" name="action" value="pass">
+                        Deny
+                    </button>
+                </form>
+
+            {% endwith %}
+        </article>
+        {% empty %}
+            <p>No one has liked you yet. Keep exploring!</p>
+        {% endfor %}
+</div>
+
+{% endblock content %}
