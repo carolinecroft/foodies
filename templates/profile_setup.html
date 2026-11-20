@@ -72,6 +72,23 @@
     </p>
     {{ form.profile_prompt.errors }}
 
+
+<fieldset class="profile-appearance">
+    <legend>Appearance Settings</legend>
+
+    <p>Choose your preferred Foodies theme:</p>
+
+    {{ form.theme }}
+    {{ form.theme.errors }}
+
+    <p>
+        <a href="{% url 'appearance_settings' %}">
+            Open Full Appearance Settings
+        </a>
+    </p>
+</fieldset>
+
+
     <button type="submit">Save Profile and Continue</button>
 </form>
 {% endblock content %}
