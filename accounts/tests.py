@@ -124,3 +124,151 @@ class AccountTests(TestCase):
 
         with self.assertRaises(ValidationError):
             profile.full_clean()
+
+
+class AppearanceSettingsTests(TestCase):
+
+    def setUp(self):
+        User = get_user_model()
+
+        self.user = User.objects.create_user(
+            email="appearance@example.com",
+            password="testpassword123"
+        )
+
+        self.profile = Profile.objects.create(
+            user=self.user,
+            name="Appearance Test",
+            age=21,
+            gender="F",
+            location="Lakeland"
+        )
+
+        self.url = reverse("appearance_settings")
+
+    def test_default_theme_is_light(self):
+        self.assertEqual(self.profile.theme, "light")
+
+    def test_appearance_page_requires_login(self):
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login/", response.url)
+
+    def test_appearance_page_loads(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            response.context["selected_theme"],
+            "light"
+        )
+
+    def test_user_can_save_dark_mode(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            self.url,
+            {"theme": "dark"}
+        )
+
+        self.assertRedirects(response, self.url)
+
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.theme, "dark")
+
+    def test_user_can_switch_back_to_light_mode(self):
+        self.profile.theme = "dark"
+        self.profile.save()
+
+        self.client.force_login(self.user)
+
+        self.client.post(
+            self.url,
+            {"theme": "light"}
+        )
+
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.theme, "light")
+
+    def test_invalid_theme_is_not_saved(self):
+        self.client.force_login(self.user)
+
+        self.client.post(
+            self.url,
+            {"theme": "invalid"}
+        )
+
+        self.profile.refresh_from_db()
+        self.assertEqual(self.profile.theme, "light")
+
+    def test_theme_persists_after_logout_and_login(self):
+        self.client.force_login(self.user)
+
+        self.client.post(
+            self.url,
+            {"theme": "dark"}
+        )
+
+        self.client.logout()
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(
+            response.context["selected_theme"],
+            "dark"
+        )
+
+    def test_users_have_independent_themes(self):
+        User = get_user_model()
+
+        other_user = User.objects.create_user(
+            email="otherappearance@example.com",
+            password="testpassword123"
+        )
+
+        other_profile = Profile.objects.create(
+            user=other_user,
+            name="Other User",
+            age=22,
+            gender="M",
+            location="Tampa"
+        )
+
+        self.client.force_login(self.user)
+
+        self.client.post(
+            self.url,
+            {"theme": "dark"}
+        )
+
+        self.profile.refresh_from_db()
+        other_profile.refresh_from_db()
+
+        self.assertEqual(self.profile.theme, "dark")
+        self.assertEqual(other_profile.theme, "light")
+
+        self.client.force_login(other_user)
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(
+            response.context["selected_theme"],
+            "light"
+        )
+
+    def test_dark_theme_applies_to_base_template(self):
+        self.profile.theme = "dark"
+        self.profile.save()
+
+        self.client.force_login(self.user)
+
+        response = self.client.get(self.url)
+
+        self.assertContains(
+            response,
+            'data-theme="dark"'
+        )

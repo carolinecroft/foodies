@@ -115,3 +115,29 @@ def discovery(request):
     context = {"candidates": candidates}
 
     return render(request, "discover.html", context)
+
+
+@login_required
+def appearance_settings(request):
+    # Get the logged-in user's profile
+    user_profile = Profile.objects.filter(user=request.user).first()
+
+    # Users need a profile to save their theme
+    if user_profile is None:
+        return redirect("profile_setup")
+
+    if request.method == "POST":
+        selected_theme = request.POST.get("theme")
+
+        # Only allow valid theme choices
+        if selected_theme in ["light", "dark"]:
+            user_profile.theme = selected_theme
+            user_profile.save(update_fields=["theme"])
+
+            return redirect("appearance_settings")
+
+    return render(
+        request,
+        "appearance_settings.html",
+        {"selected_theme": user_profile.theme},
+    )
