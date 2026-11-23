@@ -19,11 +19,6 @@
 
             <!-- Desktop Navigation -->
             <nav class="desktop-nav">
-                <a href="{% url 'home' %}"
-                   class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-                    Home
-                </a>
-
                 {% if user.is_authenticated %}
                     <a href="{% url 'profile' %}"
                        class="{% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
@@ -73,8 +68,6 @@
                 </summary>
 
                 <nav class="mobile-nav">
-                    <a href="{% url 'home' %}">Home</a>
-
                     {% if user.is_authenticated %}
                         <a href="{% url 'profile' %}">
                             My Profile
@@ -114,7 +107,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="{% if request.resolver_match.url_name == 'home' %}home-main{% endif %}">
         {% if messages %}
             <div class="messages">
                 {% for message in messages %}
