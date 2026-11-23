@@ -5,7 +5,11 @@
 {% block content %}
 
 <section class="hero">
-    <h2>Find your next date over a shared plate.</h2>
+    <p class="hero-wordmark">FOODIES</p>
+
+    <p class="hero-quote">
+        &ldquo;The best way to someone&rsquo;s heart is through their stomach.&rdquor;
+    </p>
 
     <p class="hero-subtitle">
         Foodies matches you with people based on how you eat, not just how
@@ -23,31 +27,86 @@
         </div>
     {% else %}
         <div class="hero-actions">
-            <a class="hero-button" href="{% url 'signup' %}">
-                Create My Profile
-            </a>
             <a class="hero-button hero-button-secondary" href="{% url 'login' %}">
-                Login to Your Account
+                Log In
+            </a>
+            <a class="hero-button" href="{% url 'signup' %}">
+                Sign Up
             </a>
         </div>
     {% endif %}
 </section>
 
 <section class="landing-features">
+
     <div class="landing-feature">
-        <h3>🍜 Share Your Tastes</h3>
-        <p>Tell us your favorite cuisines, dietary needs, and go-to dishes.</p>
+        <h3>🧑‍🍳 Build Your Foodie Profile</h3>
+        <p>
+            Show off who you are and share your food preferences &mdash;
+            cuisines, dietary needs, and go-to dishes &mdash; so we know what you're craving.
+        </p>
+        <div class="landing-feature-actions">
+            <a class="landing-feature-button" href="{% url 'profile' %}">
+                View My Profile
+            </a>
+            <a class="landing-feature-link" href="{% url 'food_preferences' %}">
+                Set Food Preferences
+            </a>
+        </div>
     </div>
 
     <div class="landing-feature">
-        <h3>💕 Discover Matches</h3>
-        <p>Browse profiles and connect with people who share your food compatibility.</p>
+        <h3>🍽️ Get Restaurant Picks</h3>
+        <p>
+            Once you've matched, get hand-picked restaurant recommendations
+            perfect for your next date.
+        </p>
+        <div class="landing-feature-actions">
+            <a class="landing-feature-button" href="{% url 'restaurant_list' %}">
+                Browse Restaurants
+            </a>
+        </div>
     </div>
 
     <div class="landing-feature">
-        <h3>🍽️ Find a Restaurant</h3>
-        <p>Once you match, get restaurant recommendations picked for both of you.</p>
+        <h3>💕 Discover Compatible Foodies</h3>
+        <p>
+            Swipe through people near you, see your food compatibility score,
+            and like or pass in real time.
+        </p>
+        <div class="landing-feature-actions">
+            <a class="landing-feature-button" href="{% url 'discover' %}">
+                Start Discovering
+            </a>
+        </div>
     </div>
+
+    <div class="landing-feature">
+        <h3>❤️ See Your Matches</h3>
+        <p>
+            When you both say yes, it's a match! Keep track of everyone
+            you've connected with in one place.
+        </p>
+        <div class="landing-feature-actions">
+            <a class="landing-feature-button" href="{% url 'matches' %}">
+                View My Matches
+            </a>
+        </div>
+    </div>
+
+    <div class="landing-feature">
+        <h3>🥗 See Who Liked You</h3>
+        <p>
+            Check out everyone who's already into you. Accept to make it a
+            match, or pass &mdash; the choice is yours.
+        </p>
+        <div class="landing-feature-actions">
+            <a class="landing-feature-button" href="{% url 'Liked_You' %}">
+                See Who Liked You
+            </a>
+        </div>
+    </div>
+
 </section>
 
 {% endblock %}
