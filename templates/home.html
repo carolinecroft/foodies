@@ -1,25 +1,53 @@
 {% extends "base.html" %}
 
-{% block title %}
-Welcome | Foodies
-{% endblock %}
+{% block title %}Welcome | Foodies{% endblock %}
 
 {% block content %}
 
-<h2>Welcome to Foodies!</h2>
+<section class="hero">
+    <h2>Find your next date over a shared plate.</h2>
 
-<p>
-    Meet people through shared food preferences and find the perfect place for your next date.
-</p>
+    <p class="hero-subtitle">
+        Foodies matches you with people based on how you eat, not just how
+        you look &mdash; shared cuisines, dietary habits, and favorite spots to dine.
+    </p>
 
-<button type="button" onclick="window.location.href='{% url 'signup' %}'">
-    Create My Profile!
-</button>
+    {% if user.is_authenticated %}
+        <div class="hero-actions">
+            <a class="hero-button" href="{% url 'discover' %}">
+                💕 Discover People
+            </a>
+            <a class="hero-button hero-button-secondary" href="{% url 'matches' %}">
+                ❤️ View My Matches
+            </a>
+        </div>
+    {% else %}
+        <div class="hero-actions">
+            <a class="hero-button" href="{% url 'signup' %}">
+                Create My Profile
+            </a>
+            <a class="hero-button hero-button-secondary" href="{% url 'login' %}">
+                Login to Your Account
+            </a>
+        </div>
+    {% endif %}
+</section>
 
-<br><br>
+<section class="landing-features">
+    <div class="landing-feature">
+        <h3>🍜 Share Your Tastes</h3>
+        <p>Tell us your favorite cuisines, dietary needs, and go-to dishes.</p>
+    </div>
 
-<button type="button" onclick="window.location.href='{% url 'login' %}'">
-    Login to your Account!
-</button>
- 
+    <div class="landing-feature">
+        <h3>💕 Discover Matches</h3>
+        <p>Browse profiles and connect with people who share your food compatibility.</p>
+    </div>
+
+    <div class="landing-feature">
+        <h3>🍽️ Find a Restaurant</h3>
+        <p>Once you match, get restaurant recommendations picked for both of you.</p>
+    </div>
+</section>
+
 {% endblock %}
