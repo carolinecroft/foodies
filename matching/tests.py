@@ -428,3 +428,110 @@ class MatchPageTests(TestCase):
 
         self.assertContains(response, reverse("matches"))
         self.assertContains(response, "Back to My Matches")
+
+
+# Liked You Page Tests
+
+class LikedYouPageTests(TestCase):
+
+    def setUp(self):
+        self.alice = User.objects.create_user(
+            email="alice@example.com",
+            password="testpassword123",
+        )
+
+        self.bob = User.objects.create_user(
+            email="bob@example.com",
+            password="testpassword123",
+        )
+
+        Profile.objects.create(
+            user=self.bob,
+            name="Bob",
+            age=25,
+            gender="M",
+            location="Lakeland",
+        )
+
+        # Bob likes Alice, so Alice should see Bob on her Liked You page
+        record_interaction(self.bob, self.alice, Interaction.LIKE)
+
+        self.incoming_like = Interaction.objects.get(
+            actor=self.bob,
+            target=self.alice,
+        )
+
+    def test_liked_you_requires_login(self):
+        response = self.client.get(reverse("Liked_You"))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("/login", response.url)
+
+    def test_liked_you_page_renders(self):
+        # Regression test: the page previously crashed with
+        # NoReverseMatch for 'compatibility' instead of 'Liked_You'
+        self.client.force_login(self.alice)
+
+        response = self.client.get(reverse("Liked_You"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "matching/Liked_You.html")
+        self.assertContains(response, "Bob")
+
+    def test_liked_you_form_posts_to_liked_you_url(self):
+        # Regression test for the broken {% url 'compatibility' %}
+        # reference in Liked_You.html
+        self.client.force_login(self.alice)
+
+        response = self.client.get(reverse("Liked_You"))
+
+        self.assertContains(
+            response,
+            f'action="{reverse("Liked_You")}"',
+        )
+
+    def test_accepting_a_like_creates_match(self):
+        self.client.force_login(self.alice)
+
+        response = self.client.post(reverse("Liked_You"), {
+            "action": Interaction.LIKE,
+            "interaction_id": self.incoming_like.id,
+        })
+
+        self.assertRedirects(response, reverse("Liked_You"))
+        self.assertEqual(Match.objects.count(), 1)
+
+    def test_denying_a_like_does_not_create_match(self):
+        self.client.force_login(self.alice)
+
+        response = self.client.post(reverse("Liked_You"), {
+            "action": Interaction.PASS,
+            "interaction_id": self.incoming_like.id,
+        })
+
+        self.assertRedirects(response, reverse("Liked_You"))
+        self.assertEqual(Match.objects.count(), 0)
+
+    def test_invalid_action_redirects_without_crashing(self):
+        # Regression test: this branch previously called
+        # redirect('compatibility'), which raised NoReverseMatch
+        self.client.force_login(self.alice)
+
+        response = self.client.post(reverse("Liked_You"), {
+            "action": "maybe",
+            "interaction_id": self.incoming_like.id,
+        })
+
+        self.assertRedirects(response, reverse("Liked_You"))
+
+    def test_responded_like_no_longer_listed(self):
+        self.client.force_login(self.alice)
+
+        self.client.post(reverse("Liked_You"), {
+            "action": Interaction.PASS,
+            "interaction_id": self.incoming_like.id,
+        })
+
+        response = self.client.get(reverse("Liked_You"))
+
+        self.assertNotContains(response, "Bob")

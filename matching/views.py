@@ -197,7 +197,7 @@ def compatibility(request, profile_id=None):
         action = request.POST.get("action")
 
         if action not in (Interaction.LIKE, Interaction.PASS):
-            return redirect('compatibility')
+            return redirect('Liked_You')
 
         incoming_like = get_object_or_404(
             incoming_likes,
