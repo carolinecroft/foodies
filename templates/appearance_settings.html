@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block title %}Appearance Settings | Foodies{% endblock %}
+
+{% block content %}
+
+<section class="appearance-settings">
+    <h2>Appearance Settings</h2>
+    <p>Choose how you want Foodies to look.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="theme-options">
+            <label class="theme-option">
+                <input
+                    type="radio"
+                    name="theme"
+                    value="light"
+                    {% if selected_theme == "light" %}checked{% endif %}
+                >
+                <span>☀️ Light Mode</span>
+            </label>
+
+            <label class="theme-option">
+                <input
+                    type="radio"
+                    name="theme"
+                    value="dark"
+                    {% if selected_theme == "dark" %}checked{% endif %}
+                >
+                <span>🌙 Dark Mode</span>
+            </label>
+        </div>
+
+        <button type="submit">Save Appearance</button>
+    </form>
+
+    <p>
+        <a href="{% url 'profile' %}">
+            Continue to Foodies
+        </a>
+    </p>
+</section>
+
+{% endblock %}

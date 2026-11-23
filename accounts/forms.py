@@ -66,6 +66,7 @@ class ProfileForm(forms.ModelForm):
             "distance_preference",
             "profile_prompt",
             "photo",
+            "theme",
         ]
 
         labels = {
@@ -77,6 +78,7 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             "bio": forms.Textarea(attrs={"rows": 4}),
             "profile_prompt": forms.Textarea(attrs={"rows": 3}),
+            "theme": forms.RadioSelect,
         }
 
 

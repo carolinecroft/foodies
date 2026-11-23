@@ -1,14 +1,19 @@
+
 from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator
 
+
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    
+
     # Bio and profile prompt are optional; other profile inputs are required
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField(validators=[MinValueValidator(18)])
-    gender = models.CharField(max_length=10, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')])
+    gender = models.CharField(
+        max_length=10,
+        choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')]
+    )
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100)
     interested_in = models.JSONField(default=list)
@@ -18,17 +23,29 @@ class Profile(models.Model):
     )
     profile_prompt = models.CharField(max_length=300, blank=True)
     photo = models.ImageField(
-    upload_to="profile_photos/",
-    blank=True
-)
-    
+        upload_to="profile_photos/",
+        blank=True
+    )
+
+    # Light/Dark appearance settings
+    THEME_CHOICES = [
+        ("light", "Light Mode"),
+        ("dark", "Dark Mode"),
+    ]
+
+    theme = models.CharField(
+        max_length=5,
+        choices=THEME_CHOICES,
+        default="light",
+    )
 
     def __str__(self):
         return self.name
 
+
 class FoodPreferences(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
-    
+
     favorite_cuisine = models.CharField(max_length=100)
     disliked_cuisine = models.CharField(max_length=100, blank=True)
     dietary_restrictions = models.CharField(max_length=100, blank=True)

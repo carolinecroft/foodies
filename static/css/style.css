@@ -553,3 +553,188 @@ textarea:focus-visible {
     color: #0f5132;
     border: 1px solid #badbcc;
 }
+
+
+/* ========================================
+   LIGHT / DARK APPEARANCE SETTINGS
+   ======================================== */
+
+:root {
+    --page-bg: #FFF9F0;
+    --surface-bg: #FFFFFF;
+    --text-primary: #30382F;
+    --text-secondary: #536F49;
+    --input-bg: #FFFFFF;
+    --theme-border: #CBD6C3;
+}
+
+[data-theme="dark"] {
+    --page-bg: #1C211C;
+    --surface-bg: #2B332B;
+    --text-primary: #F5F5F0;
+    --text-secondary: #C5D6BD;
+    --input-bg: #353F35;
+    --theme-border: #536653;
+
+    /* Existing shared palette overrides */
+    --cream: #1C211C;
+    --charcoal: #F5F5F0;
+    --border: #536653;
+    --sage: #A8C69B;
+    --sage-dark: #C5D6BD;
+    --sage-light: #354535;
+    --terracotta: #F0A28C;
+}
+
+body {
+    background-color: var(--page-bg);
+    color: var(--text-primary);
+}
+
+body > header {
+    background-color: var(--surface-bg);
+    border-color: var(--theme-border);
+}
+
+body > main {
+    background-color: var(--surface-bg);
+    color: var(--text-primary);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    border-color: var(--theme-border);
+}
+
+nav a {
+    color: var(--text-primary);
+}
+
+.theme-options {
+    display: flex;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.theme-option {
+    flex: 1;
+    padding: 20px;
+    border: 2px solid var(--theme-border);
+    border-radius: 10px;
+    background-color: var(--surface-bg);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: center;
+}
+
+.theme-option:has(input:checked) {
+    border-color: var(--sage);
+    outline: 2px solid var(--sage);
+}
+
+@media (max-width: 600px) {
+    .theme-options {
+        flex-direction: column;
+    }
+}
+
+/* ========================================
+   DARK MODE - ADDITIONAL COMPONENT FIXES
+   ======================================== */
+
+/* Mobile navigation and menu */
+[data-theme="dark"] .mobile-nav {
+    background-color: var(--surface-bg);
+    border-color: var(--theme-border);
+}
+
+[data-theme="dark"] .mobile-menu summary {
+    background-color: var(--sage-light);
+    color: var(--text-primary);
+}
+
+/* Restaurant browsing */
+[data-theme="dark"] .restaurant-card {
+    background-color: var(--surface-bg);
+    border-color: var(--theme-border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .restaurant-card h2 {
+    color: var(--terracotta);
+}
+
+[data-theme="dark"] .restaurant-links a {
+    background-color: var(--sage-light);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .restaurant-links a:hover {
+    background-color: var(--theme-border);
+}
+
+/* Matches and empty states */
+[data-theme="dark"] .match-date {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .match-button {
+    color: #1C211C;
+}
+
+[data-theme="dark"] .matches-empty {
+    background-color: var(--surface-bg);
+    border-color: var(--theme-border);
+}
+
+/* Buttons: ensure readable text on dark surfaces */
+[data-theme="dark"] button:not(:disabled),
+[data-theme="dark"] input[type="submit"]:not(:disabled) {
+    background-color: var(--sage-light);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] button:not(:disabled):hover,
+[data-theme="dark"] input[type="submit"]:not(:disabled):hover {
+    background-color: var(--theme-border);
+}
+
+/* Profile page */
+[data-theme="dark"] .profile-section {
+    background-color: var(--surface-bg);
+    border-color: var(--theme-border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .edit-profile-btn {
+    color: var(--text-primary);
+    border-color: var(--theme-border);
+}
+
+[data-theme="dark"] .edit-profile-btn:hover {
+    background-color: var(--input-bg);
+}
+
+[data-theme="dark"] .photo-placeholder {
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .profile-header .location {
+    color: var(--text-secondary);
+}
+
+/* Validation and theme selection */
+[data-theme="dark"] .errorlist {
+    color: #FF9DAA;
+}
+
+[data-theme="dark"] .theme-option:has(input:checked) {
+    border-color: var(--sage);
+}
